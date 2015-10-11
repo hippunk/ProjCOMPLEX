@@ -8,8 +8,8 @@
 int main(int argc, char * argv[]){
 
     srand(time(NULL));
-    
-    johnson_test();
+    dureeAB_test();
+    //johnson_test();
 
     return EXIT_SUCCESS;
 }

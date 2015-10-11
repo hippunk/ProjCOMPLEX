@@ -80,6 +80,30 @@ instance_t * instanceCopie(instance_t * inst){
 	return copie;
 }
 
+int instanceDureeAB(instance_t *inst){
+	int tA,tB;
+	//int tC;
+	tA=inst->A[0];
+	tB=inst->B[0]+tA;
+	//tC=inst->C[0]+tB;
+	for(int i=1;i<inst->nb_elem;i++){
+		if( inst->A[i] <= (tB-tA) ){
+			tB=tB+inst->B[i];
+		}else{
+			tB=tA+inst->A[i]+inst->B[i];
+		}
+		tA=tA+inst->A[i];
+		/*if( inst->B[i] <= (tC-tB) ){
+			tC=tC+inst->C[i];
+		}else{
+			tC=tB+inst->B[i]+inst->C[i];
+		}*/
+	}
+	//return tC;
+	return tB;	
+
+}
+
 void instanceAfficher(instance_t * inst){
     printf("Instance : %s\n",inst->num_instance);
     printf("#####################################################\n");

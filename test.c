@@ -5,6 +5,13 @@
 #include"test.h"
 #include"algo_approche.h"
 
+void dureeAB_test(){
+	instance_t* t;
+	t=instanceCreer(3,"dureeAB");
+	instanceRandNC(t);
+	instanceAfficher(t);
+	printf("\nDureeAB = %d \n",instanceDureeAB(t));
+}
 void johnson_test(){
     instance_t* inst;
     instance_t* john_inst;

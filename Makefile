@@ -15,7 +15,7 @@ instance.o: instance.c instance.h
 	$(CC) $(CFLAGS) -c instance.c -o instance.o
 	
 algo_approche.o: algo_approche.c
-	$(CC) $(CFLAGS) -c algo_approche.c -o algo_approche.c
+	$(CC) $(CFLAGS) -c algo_approche.c -o algo_approche.o
 
 
 

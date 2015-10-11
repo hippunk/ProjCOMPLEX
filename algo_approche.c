@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>
+#include"instance.h"
 #include<time.h>
 #define INF INT_MAX
  

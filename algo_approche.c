@@ -31,27 +31,24 @@ instance_t* johnson(instance_t* inst){
 	new=instanceCreer(t->nb_elem);
 	instanceInit(new);
 	g_pos=0;
-	d_pos=0;
+	d_pos=t->nb_elem-1;
 	for(int k=0;k<t->nb_elem;k++){
 		min=minAB(t, &i, &j);
-		if(j==0){ //durée de tache min est sur la machine A
+		printf("min=%d \n",min);
+		if(j==0){ //durée de tache min est sur la machine A -> on rajoute en début 
 			new->A[g_pos]=t->A[i];
 			new->B[g_pos]=t->B[i];
 			new->C[g_pos]=t->C[i];
 			t->A[i]=INF;
 			t->B[i]=INF;
 			g_pos++;
-		}
-	}
-	while(t->nb_elem < g_pos+d_pos){
-		min=minAB(t, &i, &j);
-		if(j==1){ //durée de tache min sur la machine B
-			new->A[g_pos+d_pos]=t->A[i];
-			new->B[g_pos+d_pos]=t->B[i];
-			new->C[g_pos+d_pos]=t->C[i];
+		}else{ //durée de la tache min est sur la machine B -> on rajoute en fin
+			new->A[d_pos]=t->A[i];
+			new->B[d_pos]=t->B[i];
+			new->C[d_pos]=t->C[i];
 			t->A[i]=INF;
 			t->B[i]=INF;
-			d_pos++;
+			d_pos--;
 		}
 	}
 	instanceDetruire(t);

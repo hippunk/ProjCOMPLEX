@@ -22,7 +22,46 @@ int minAB(instance_t *t, int* i, int* j){
     return min;
 }
                                
- 
+instance_t* johnson(instance_t* inst){
+	int i,j,min,g_pos,d_pos;
+	instance_t* t;
+	instance_t* new;
+	t=instanceCreer(inst->nb_elem);
+	t=instanceCopie(inst);
+	new=instanceCreer(t->nb_elem);
+	instanceInit(new);
+	g_pos=0;
+	d_pos=0;
+	for(int k=0;k<t->nb_elem;k++){
+		min=minAB(t, &i, &j);
+		if(j==0){ //durée de tache min est sur la machine A
+			new->A[g_pos]=t->A[i];
+			new->B[g_pos]=t->B[i];
+			new->C[g_pos]=t->C[i];
+			t->A[i]=INF;
+			t->B[i]=INF;
+			g_pos++;
+		}
+	}
+	while(t->nb_elem < g_pos+d_pos){
+		min=minAB(t, &i, &j);
+		if(j==1){ //durée de tache min sur la machine B
+			new->A[g_pos+d_pos]=t->A[i];
+			new->B[g_pos+d_pos]=t->B[i];
+			new->C[g_pos+d_pos]=t->C[i];
+			t->A[i]=INF;
+			t->B[i]=INF;
+			d_pos++;
+		}
+	}
+	instanceDetruire(t);
+	return new;
+}
+			
+		
+	
+	
+	
 /*instance_t* johnson(instance_t* t){
         gen=instanceCreer(t->nb_elem);
         instanceInit(gen);

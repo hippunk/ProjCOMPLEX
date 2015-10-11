@@ -5,8 +5,8 @@ CFLAGS = -O3 -Wall --std=c11
 # désactivation des règles implicites
 .SUFFIXES:
 
-all: main.o instance.o algo_approche.o
-	$(CC) $(CFLAGS) main.o instance.o algo_approche.o -o main
+all: main.o instance.o algo_approche.o test.o
+	$(CC) $(CFLAGS) main.o instance.o algo_approche.o test.o -o main
  
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o 
@@ -16,12 +16,15 @@ instance.o: instance.c instance.h
 	
 algo_approche.o: algo_approche.c
 	$(CC) $(CFLAGS) -c algo_approche.c -o algo_approche.o
+	
+test.o: test.c
+	$(CC) $(CFLAGS) -c test.c -o test.o
 
 
 
 # suppression des fichiers temporaires
 clean:
-	rm -rf *.o
+	rm -rf *.o main
  
 # suppression de tous les fichiers, sauf les sources,
 # en vue d'une reconstruction complète

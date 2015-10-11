@@ -2,25 +2,24 @@
 #include<stdlib.h>
 #include<limits.h>
 #include"instance.h"
-#include<time.h>
+
 #define INF INT_MAX
  
  
 int minAB(instance_t *t, int* i, int* j){
-	int k;
-        int min=INF;
-        for(k=0;k<t->nb_elem;k++){
-                if(min > t->A[k] && t->A[k] < t->B[k]){
-                        min=t->A[k];
-                        *i=k;
-                        *j=0;
-                }else if( min > t->B[k] ){
-                        min=t->B[k];
-                        *i=k;
-                        *j=1;                  
-                }
-        }
-        return min;
+    int min=INF;
+    for(int k=0;k<t->nb_elem;k++){
+            if(min > t->A[k] && t->A[k] < t->B[k]){
+                    min=t->A[k];
+                    *i=k;
+                    *j=0;
+            }else if( min > t->B[k] ){
+                    min=t->B[k];
+                    *i=k;
+                    *j=1;                  
+            }
+    }
+    return min;
 }
                                
  

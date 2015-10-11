@@ -2,8 +2,6 @@
 
 #define INSTANCE_H
 
-extern int instcp;
-
 typedef struct instance_s{
     	int num_instance;
 	int nb_elem;

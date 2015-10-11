@@ -3,6 +3,8 @@
 #include <time.h>
 #include "instance.h"
 
+int instcp = 0;
+
 int aleatoire(int min,int max){
     return (rand()%(max-min+1))+min;
 }
@@ -10,7 +12,7 @@ int aleatoire(int min,int max){
 instance_t * instanceCreer(int nb_elem){
     
 	instance_t * inst = malloc(sizeof(instance_t)); 
-	inst->num_instance = numInstance++;
+	inst->num_instance = instcp++;
 	inst->nb_elem = nb_elem;
 	inst->A = malloc(sizeof(int)*nb_elem);
 	inst->B = malloc(sizeof(int)*nb_elem);

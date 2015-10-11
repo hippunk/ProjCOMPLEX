@@ -1,20 +1,17 @@
 #ifndef INSTANCE_H
+
 #define INSTANCE_H
 
-int numInstance = 0;
+extern int instcp;
 
 typedef struct instance_s{
-    int num_instance;
+    	int num_instance;
 	int nb_elem;
 	int *A;
 	int *B;
 	int *C;
 }instance_t;
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include "instance.h"
 
 int aleatoire(int min,int max);
 instance_t * instanceCreer(int nb_elem);

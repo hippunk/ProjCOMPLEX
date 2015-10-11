@@ -3,7 +3,7 @@
 #include <time.h>
 #include "instance.h"
 
-int instcp = 0;
+static int instcp = 0;
 
 int aleatoire(int min,int max){
     return (rand()%(max-min+1))+min;

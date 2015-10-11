@@ -9,20 +9,7 @@ int main(int argc, char * argv[]){
 
     srand(time(NULL));
     
-    instance_t* inst;
-    instance_t* john_inst;
-    
-    inst=instanceCreer(10,"");
-    instanceRandNC(inst);
-    instanceAfficher(inst);
-    
-    
-    john_inst=johnson(inst);
-    instanceAfficher(john_inst);
-    
-    
-    instanceDetruire(john_inst);
-    instanceDetruire(inst);
+    johnson_test();
 
     return EXIT_SUCCESS;
 }

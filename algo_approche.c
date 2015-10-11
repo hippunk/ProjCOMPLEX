@@ -23,12 +23,12 @@ int minAB(instance_t *t, int* i, int* j){
 }
                                
 instance_t* johnson(instance_t* inst){
-	int i = 0,j = 0,min = 0,g_pos = 0,d_pos = 0;
+	int i = 0,j = 0,g_pos = 0,d_pos = 0;
 	instance_t* t;
 	instance_t* new;
 	
 	t=instanceCopie(inst);
-	new=instanceCreer(t->nb_elem,"");
+	new=instanceCreer(t->nb_elem,"Johnson");
 	
 	instanceInit(new);
 	
@@ -36,8 +36,8 @@ instance_t* johnson(instance_t* inst){
 	d_pos=t->nb_elem-1;
 	
 	for(int k=0;k<t->nb_elem;k++){
-		min=minAB(t, &i, &j);
-		printf("min=%d \n",min);
+		minAB(t, &i, &j);
+
 		if(j==0){ //durée de tache min est sur la machine A -> on rajoute en début 
 		    new->ordre[g_pos]=t->ordre[i];
 			new->A[g_pos]=t->A[i];

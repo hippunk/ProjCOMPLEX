@@ -11,9 +11,13 @@ int main(int argc, char * argv[]){
     
     instanceRandNC(inst);
     instanceAfficher(inst);
-    instance_t * copie = instanceCopie(inst);
-    instanceAfficher(copie);
+    int i,j;
+    int m=minAB(inst,&i,&j);
+    printf("\nval = %d, i = %d, j = %d\n",m,i,j);
+    //instance_t * copie = instanceCopie(inst);
+    //instanceAfficher(copie);
     
     instanceDetruire(inst);
+    //instanceDetruire(copie);
 	return EXIT_SUCCESS;
 }

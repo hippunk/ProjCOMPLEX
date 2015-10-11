@@ -5,6 +5,7 @@
 #include "test.h"
 
 int main(int argc, char * argv[]){
+<<<<<<< HEAD
     srand(time(NULL));
     instance_t* inst;
     instance_t* john_inst;
@@ -16,6 +17,12 @@ int main(int argc, char * argv[]){
     instanceAfficher(john_inst);
     //instanceDetruire(john_inst);
     //instanceDetruire(inst);
+=======
+
+    srand(time(NULL));
+    
+minAB_test();
+>>>>>>> ea7dd3603bac24f1f9bcbcbdc070ddd20fb0afd0
     
 
     

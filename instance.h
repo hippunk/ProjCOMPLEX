@@ -5,6 +5,7 @@
 typedef struct instance_s{
     	int num_instance;
 	int nb_elem;
+	int *ordre;
 	int *A;
 	int *B;
 	int *C;
@@ -12,7 +13,7 @@ typedef struct instance_s{
 
 
 int aleatoire(int min,int max);
-instance_t * instanceCreer(int nb_elem);
+instance_t * instanceCreer(int nb_elem,char * nom);
 void instanceInit(instance_t * inst);
 void instanceRandNC(instance_t * inst);
 void instanceRandDE(instance_t * inst);

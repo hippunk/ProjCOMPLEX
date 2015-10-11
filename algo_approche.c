@@ -39,17 +39,15 @@ instance_t* johnson(instance_t* inst){
 			new->A[g_pos]=t->A[i];
 			new->B[g_pos]=t->B[i];
 			new->C[g_pos]=t->C[i];
-			t->A[i]=INF;
-			t->B[i]=INF;
 			g_pos++;
 		}else{ //durée de la tache min est sur la machine B -> on rajoute en fin
 			new->A[d_pos]=t->A[i];
 			new->B[d_pos]=t->B[i];
 			new->C[d_pos]=t->C[i];
-			t->A[i]=INF;
-			t->B[i]=INF;
 			d_pos--;
 		}
+		t->A[i]=INF;
+		t->B[i]=INF;
 	}
 	instanceDetruire(t);
 	return new;

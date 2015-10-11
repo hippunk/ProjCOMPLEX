@@ -26,9 +26,9 @@ instance_t* johnson(instance_t* inst){
 	int i,j,min,g_pos,d_pos;
 	instance_t* t;
 	instance_t* new;
-	t=instanceCreer(inst->nb_elem);
+	t=instanceCreer(inst->nb_elem,"");
 	t=instanceCopie(inst);
-	new=instanceCreer(t->nb_elem);
+	new=instanceCreer(t->nb_elem,"");
 	instanceInit(new);
 	g_pos=0;
 	d_pos=0;

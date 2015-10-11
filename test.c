@@ -5,10 +5,23 @@
 #include"test.h"
 #include"algo_approche.h"
 
+/*void johnson_test(){
+    instance_t* inst;
+    instance_t* john_inst;
+    inst=instanceCreer(3);
+    instanceRandNC(inst);
+    instanceAfficher(inst);
+    john_inst=instanceCreer(inst->nb_elem);
+    john_inst=johnson(inst);
+    instanceAfficher(john_inst);
+    instanceDetruire(john_inst);
+    instanceDetruire(inst);
+}*/
+
 void minAB_test(){
     printf("\nTest de la fonction minAB\n");
     printf("Le résultat correspond à la tache la plus courte sur les machines A et B\n");
-    instance_t * inst = instanceCreer(10);
+    instance_t * inst = instanceCreer(10,"Pouet");
     
     instanceRandNC(inst);
     instanceAfficher(inst);
@@ -20,7 +33,7 @@ void minAB_test(){
     instanceDetruire(inst);
 }
 
-void minAB_test_distribNC(int loop,void (*pInstRand)(instance_t * inst)){
+/*void minAB_test_distribNC(int loop,void (*pInstRand)(instance_t * inst)){
     printf("\nTest de la distribution de proba du résultat minAB\n");
     printf("Le résultat correspond à la distribution de proba du résultat de minAB\n");
     instance_t * inst = instanceCreer(10);
@@ -40,4 +53,4 @@ void minAB_test_distribNC(int loop,void (*pInstRand)(instance_t * inst)){
 
     printf("\nMinimum machine A = %.3f, Minimum machine B = %.3f\n\n",cpt1/loop,cpt2/loop);
     instanceDetruire(inst);
-}
+}*/

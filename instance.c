@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "instance.h"
 
 int aleatoire(int min,int max){
@@ -10,7 +11,7 @@ int aleatoire(int min,int max){
 instance_t * instanceCreer(int nb_elem,char * nom){
     
 	instance_t * inst = malloc(sizeof(instance_t)); 
-	inst->num_instance = malloc(sizeof(int)*256);
+	inst->num_instance = malloc(sizeof(char)*256);
 	strcpy(inst->num_instance,nom);
 	inst->nb_elem = nb_elem;
 	inst->ordre = malloc(sizeof(int)*nb_elem);
@@ -69,7 +70,7 @@ instance_t * instanceCopie(instance_t * inst){
     instance_t * copie = instanceCreer(inst->nb_elem,inst->num_instance);
     
 	for(int i = 0;i<inst->nb_elem;i++){
-	    inst->ordre[i] = i;
+	    copie->ordre[i] = i;
 	    copie->A[i] = inst->A[i];
 	    copie->B[i] = inst->B[i];
 	    copie->C[i] = inst->C[i];
@@ -96,6 +97,8 @@ void instanceAfficher(instance_t * inst){
 
 
 void instanceDetruire(instance_t * inst){
+	free(inst->ordre);
+	free(inst->num_instance);
 	free(inst->A);
 	free(inst->B);
 	free(inst->C);

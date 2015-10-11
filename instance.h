@@ -3,7 +3,7 @@
 #define INSTANCE_H
 
 typedef struct instance_s{
-    	int num_instance;
+    char * num_instance;
 	int nb_elem;
 	int *ordre;
 	int *A;

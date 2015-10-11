@@ -8,8 +8,10 @@
 int main(int argc, char * argv[]){
 
     srand(time(NULL));
-    
-    johnson_test();
+    instance_t * inst = instanceCreer(3,"test");
+    instanceRandNC(inst);
+    instanceAfficher(inst);
+    //johnson_test();
 
     return EXIT_SUCCESS;
 }

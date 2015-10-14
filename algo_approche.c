@@ -5,7 +5,11 @@
 
 #define INF INT_MAX
  
- 
+int min(){
+    int min = 0;
+    return min;
+    
+}
 int minAB(instance_t *t, int* i, int* j){
     int min=INF;
     for(int k=0;k<t->nb_elem;k++){
@@ -20,6 +24,25 @@ int minAB(instance_t *t, int* i, int* j){
             }
     }
     return min;
+}
+
+int ** tabTacheConstruct(instance_t* inst){
+
+    int ** tab = malloc(sizeof(int*)*3);
+    for(int i = 0;i<3;i++){
+        tab[i] = malloc(sizeof(int*)*3);
+    }
+    
+	for(int k=0;k<t->nb_elem;k++){
+	    tab[0][k] = k;
+        if(A[k] <= B[k]){
+            tab[1][k] = A[k]
+            tab[2][k] = 
+        }
+
+
+	}
+    return tab;
 }
                                
 instance_t* johnson(instance_t* inst){

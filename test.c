@@ -5,28 +5,31 @@
 #include"test.h"
 #include"algo_approche.h"
 
-void dureeAB_test(){
+void instance_test(){
 	instance_t* t;
-	t=instanceCreer(3,"dureeAB");
+	t=instanceCreer(3,"cout test");
 	instanceRandNC(t);
 	instanceAfficher(t);
-	printf("\nDureeAB = %d \n",instanceDureeAB(t));
 }
-void johnson_test(){
+
+void johnson_test(int taille){
+    printf("Début test johnson, instance de taille %i\n",taille);
     instance_t* inst;
     instance_t* john_inst;
-    
-    inst=instanceCreer(10,"NC");
+    printf("Création de l'instance\n");
+    inst=instanceCreer(taille,"NC");
+    printf("Initialisation de l'instance\n");
     instanceRandNC(inst);
-    instanceAfficher(inst);
+    //instanceAfficher(inst);
     
-    
+    printf("Approximation johnson\n");
     john_inst=johnson(inst);
-    instanceAfficher(john_inst);
+    //instanceAfficher(john_inst);
     
-    
+    printf("Destruction instances\n");
     instanceDetruire(john_inst);
     instanceDetruire(inst);
+    printf("Fin test\n");
 }
 
 void minAB_test(){

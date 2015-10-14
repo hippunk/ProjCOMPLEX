@@ -16,3 +16,6 @@ git commit -a
 
 #Pusher les fichiers sur le repo
 git push
+
+#verif de la memoire
+valgrind <-v> ./main

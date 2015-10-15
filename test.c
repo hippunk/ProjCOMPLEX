@@ -4,8 +4,9 @@
 #include<sys/time.h>
 #include"instance.h"
 #include"test.h"
+#include"node.h"
+#include"tabStack.h"
 #include"algo_approche.h"
-
 
 double chrono(){
 
@@ -18,6 +19,74 @@ double chrono(){
 	old = tmp;
 
 	return time;
+}
+
+void stackTest(){
+    printf("\nTest utilisation et fonctionnement de la pile\n");
+    
+    //Création de la pile
+    printf("\nCréation de la pile\n");
+    tabStack_t  * stack;
+    stack = tabStackCreate(2);
+    tabStackPrint(stack);
+        
+    //Création de 3 noeuds de test
+    printf("\nCréation de 3 noeuds de test\n");
+    node_t * node1 = nodeCreate();
+    node_t * node2 = nodeCreate();
+    node_t * node3 = nodeCreate();
+    nodeInit(node1,10);
+    nodeInit(node2,20);
+    nodeInit(node3,30);
+    
+    //Déclaration d'un noeud test pour essais sur pop
+    printf("\nDéclaration d'un noeud test pour essais sur pop\n");
+    node_t * test;
+    
+
+    //Affichage des noeuds de test
+    printf("\nAffichage des noeuds de test\n");
+    nodePrint(node1);
+    nodePrint(node2);
+    nodePrint(node3);
+    
+    //Tentative de pop avec pile vide
+    printf("\nTentative de pop avec pile vide\n");
+    test = tabStackPop(stack);
+    
+    //Push de 3 nodes
+    printf("\nPush de 3 nodes\n");
+    tabStackPush(stack,node1);
+    tabStackPush(stack,node2);
+    tabStackPush(stack,node3); //Le 3eme node ne rentre pas
+    
+    //Affichage de la pile
+    printf("\nAffichage de la pile\n");
+    tabStackPrint(stack);
+    
+    //récupération de la tête
+    printf("\nrécupération de la tête\n");
+    test = tabStackPop(stack);
+    
+    //Affichage liste et noeud récupéré
+    printf("\nAffichage liste et noeud récupéré\n");
+    tabStackPrint(stack);
+    nodePrint(test);
+    
+    //Récupération de la mémoire utilisé
+    printf("\nRécupération de la mémoire utilisé\n");
+    nodeDestroy(node1);
+    nodeDestroy(node2);
+    nodeDestroy(node3);
+    tabStackDestroy(stack);
+}
+
+void nodeMemTest(){
+    node_t * node;
+    node = nodeCreate();
+    nodeInit(node,10);
+    nodePrint(node);
+    nodeDestroy(node);
 }
 
 void bench_john_nlogn_vs_n2(int taille){

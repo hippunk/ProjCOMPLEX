@@ -2,8 +2,6 @@
 
 #define ALGO_APPROCHE_H
 
-#include "instance.h"
-
 //FusionSort pour johnson nlogn
 void fusion(int **tableau,int deb1,int fin1,int fin2);
 void tri_fusion_bis(int **tableau,int deb,int fin);

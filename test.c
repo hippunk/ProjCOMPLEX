@@ -1,9 +1,49 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>
+#include<sys/time.h>
 #include"instance.h"
 #include"test.h"
 #include"algo_approche.h"
+
+
+double chrono(){
+
+	static struct timeval old;
+	struct timeval tmp;
+	gettimeofday(&tmp,NULL);
+	
+	double time = ((double)tmp.tv_sec+(double)tmp.tv_usec/1000000)-((double)old.tv_sec+(double)old.tv_usec/1000000);
+
+	old = tmp;
+
+	return time;
+}
+
+void bench_john_nlogn_vs_n2(int taille){
+    
+    
+    printf("Bench johnson nlogn vs n^2 taille instance : %i\n",taille);
+    chrono();
+	instance_t* t;
+	t=instanceCreer(taille,"Bench");
+	instanceRandNC(t);
+	//instanceAfficher(t);
+
+	instance_t* johnlogn = johnsonnlogn(t);
+	//instanceAfficher(johnlogn);
+	printf("Temps d'execution nlogn : %.6f secondes.\n",chrono());
+	
+	instance_t* john = johnson(t);
+	//instanceAfficher(john);	
+	printf("Temps d'execution n^2 : %.6f secondes.\n",chrono());
+	
+
+	instanceDetruire(johnlogn);
+	instanceDetruire(john);
+	instanceDetruire(t);
+
+}
 
 void instance_test(){
 	instance_t* t;

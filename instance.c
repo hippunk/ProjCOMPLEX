@@ -115,7 +115,78 @@ void instanceAfficher(instance_t * inst){
 	printf("Cout : %i\n",instanceCout(inst));
 }
 
+instance_t * instanceRead(char * name){
 
+    FILE *ifp;
+    int buff;
+    instance_t * inst = NULL;
+
+    ifp = fopen(name, "r");
+
+    if (ifp == NULL) {
+      fprintf(stderr, "Can't open input file.\n");
+      exit(1);
+    }
+    
+    //Lecture du nombre de taches
+    fscanf(ifp, "%i", &(buff));
+    
+    inst = instanceCreer(buff,name);
+    instanceInit(inst);
+    
+    //Lecture du tableau A
+    for(int i = 0;i<inst->nb_elem;i++){
+        fscanf(ifp, "%i",&(inst->A[i]));
+    }
+    //Lecture du tableau B
+    for(int i = 0;i<inst->nb_elem;i++){
+        fscanf(ifp, "%i",&(inst->B[i]));
+    }
+    //Lecture du tableau C
+    for(int i = 0;i<inst->nb_elem;i++){
+        fscanf(ifp, "%i",&(inst->C[i]));
+    }
+    
+    fclose(ifp);
+    return inst;
+}
+
+void instanceWrite(instance_t * inst,char * name){
+    FILE *ofp;
+
+
+    ofp = fopen(name, "w");
+
+    if (ofp == NULL) {
+      fprintf(stderr, "Can't open output file.\n");
+      exit(1);
+    }
+    
+    //Ecriture du nombre de taches
+    fprintf(ofp, "%i\n", inst->nb_elem);
+    
+    //Lecture du tableau A
+    fprintf(ofp, "%i", inst->A[0]);
+    for(int i = 1;i<inst->nb_elem;i++){
+        fprintf(ofp, " %i", inst->A[i]);
+    }
+    fprintf(ofp, "\n");
+    
+    //Lecture du tableau B
+    fprintf(ofp, "%i", inst->B[0]);
+    for(int i = 1;i<inst->nb_elem;i++){
+        fprintf(ofp, " %i", inst->B[i]);
+    }
+    fprintf(ofp, "\n");
+    
+    //Lecture du tableau C
+    fprintf(ofp, "%i", inst->C[0]);
+    for(int i = 1;i<inst->nb_elem;i++){
+        fprintf(ofp, " %i", inst->C[i]);
+    }
+    
+    fclose(ofp);
+}
 
 void instanceDetruire(instance_t * inst){
 	free(inst->ordre);

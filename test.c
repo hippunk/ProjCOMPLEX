@@ -119,6 +119,7 @@ void instance_test(){
 	t=instanceCreer(3,"cout test");
 	instanceRandNC(t);
 	instanceAfficher(t);
+	instanceDetruire(t);
 }
 
 void johnson_test(int taille){

@@ -21,6 +21,9 @@ void instanceRandM(instance_t * inst);
 void instanceDetruire(instance_t * inst);
 instance_t * instanceCopie(instance_t * inst);
 
+instance_t * instanceRead(char * name);
+void instanceWrite(instance_t * inst,char * name);
+
 int instanceCout(instance_t * inst);
 void instanceAfficher(instance_t * inst);
 

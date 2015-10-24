@@ -39,6 +39,7 @@ clean:
 mrproper: clean
 	rm -rf main
 	rm -rf memcheck
+	rm -rf memcheck.massif
 	
 	
 memcheck: mrproper all

@@ -18,15 +18,22 @@ int main(int argc, char * argv[]){
     
     //stackTest();
     //bench_john_nlogn_vs_n2(100000);
-    int * tab = calloc(3,sizeof(int)); 
-    for(int i = 0;i<3;i++){
+    int tailleTest = 10;
+    
+    int * tab = calloc(tailleTest,sizeof(int)); 
+    for(int i = 0;i<tailleTest;i++){
         tab[i] = i+1;
     }         
      
 
     printf("\n");
-    int * sol = branch_bound(tab,3);
-    
+    int * sol = branch_bound(tab,tailleTest);
+  
+    printf("Solution finale :");
+    for(int i = 0;i<tailleTest;i++){
+        printf(" %i",sol[i]);
+    }           
+    printf("\n");
     
     free(sol);
     free(tab);

@@ -1,6 +1,6 @@
 # définition des variables
 CC = gcc
-CFLAGS = -O2 -Wall --std=c11
+CFLAGS = -O2 -g -Wall --std=c11
 
 # désactivation des règles implicites
 .SUFFIXES:
@@ -38,3 +38,10 @@ clean:
 # en vue d'une reconstruction complète
 mrproper: clean
 	rm -rf main
+	rm -rf memcheck
+	
+	
+memcheck: mrproper all
+	valgrind --tool=massif --stacks=yes --time-unit=B --massif-out-file=memcheck.massif ./main
+	ms_print memcheck.massif > memcheck
+	rm -rf memcheck.massif

@@ -17,24 +17,23 @@ int nbEmpty(int * tab, int taille){
 
 int * branch_bound_rec(int * tab,int * curSol,int taille,int curseur){
 
-   //Debug affichage données noeud courant 
-        printf("Solution partielle courante : ");
+    //Debug affichage données noeud courant 
+        /*printf("Solution partielle courante :");
         for(int i = 0;i<curseur;i++){
              if(curSol[i]!=EMPTY){
                   printf("%i ",curSol[i]);
              }
         }
-        printf("\n");
+        printf("\n");*/
 
-     if(nbEmpty(tab,taille)-1 == 0){
+     if(nbEmpty(tab,taille) == 0){
           //Debug affichage noeud feuille
-               printf("Solution dans feuille : ");
+               /*printf("Solution dans feuille : ");
                for(int i = 0;i<curseur;i++){
                     printf("%i ",curSol[i]);
                }
-               printf("\n");
-               
-          return curSol;
+               printf("\n");*/
+        
      }
 
      for(int k = 0;k<taille;k++){
@@ -44,23 +43,23 @@ int * branch_bound_rec(int * tab,int * curSol,int taille,int curseur){
                //printf("Profondeur : %i, tab[k] : %i\n",curseur,tab[k]);
                int tmp = tab[k];
                tab[k] = EMPTY;  
-               curSol[curseur] = tmp;              
-               
+               curSol[curseur] = tmp;   
+                             
                     
-               int * sol = branch_bound_rec(tab,curSol,taille,curseur+1);
-               tab[k] = tmp;
-               
-               //return sol;
-               
+               curSol = branch_bound_rec(tab,curSol,taille,curseur+1);
+               tab[k] = tmp;                 
           }
      }
      
-     return NULL; 
+     return curSol; 
 }
 /*tab et taille ammenés à être remplacé par instance t avec passage des fonctions de borne */
 int * branch_bound(int * tab,int taille){//instance_t * inst,int (*borneInf)(instance_t * inst, int indice)){
 
      int * curSol = calloc(taille,sizeof(int));
+     for(int i = 0;i<4;i++){
+            curSol[i] = 0;
+     }              
      return branch_bound_rec(tab,curSol,taille,0);         
 
 }

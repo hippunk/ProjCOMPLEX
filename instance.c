@@ -129,22 +129,35 @@ instance_t * instanceRead(char * name){
     }
     
     //Lecture du nombre de taches
-    fscanf(ifp, "%i", &(buff));
+    if(fscanf(ifp, "%i", &(buff)) != 1){
+        fprintf(stderr, "Error while reading file.\n");
+        exit(1);
+    }
     
     inst = instanceCreer(buff,name);
     instanceInit(inst);
     
     //Lecture du tableau A
     for(int i = 0;i<inst->nb_elem;i++){
-        fscanf(ifp, "%i",&(inst->A[i]));
+        if(fscanf(ifp, "%i",&(inst->A[i])) != 1){
+            fprintf(stderr, "Error while reading file.\n");
+            exit(1);
+        }
+    
     }
     //Lecture du tableau B
     for(int i = 0;i<inst->nb_elem;i++){
-        fscanf(ifp, "%i",&(inst->B[i]));
+        if(fscanf(ifp, "%i",&(inst->B[i]))!= 1){
+            fprintf(stderr, "Error while reading file.\n");
+            exit(1);
+        }
     }
     //Lecture du tableau C
     for(int i = 0;i<inst->nb_elem;i++){
-        fscanf(ifp, "%i",&(inst->C[i]));
+        if(fscanf(ifp, "%i",&(inst->C[i]))!= 1){
+            fprintf(stderr, "Error while reading file.\n");
+            exit(1);
+        }
     }
     
     fclose(ifp);

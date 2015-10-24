@@ -26,6 +26,7 @@ int * branch_bound_rec(int * tab,int * curSol,int taille,int curseur){
         }
         printf("\n");*/
 
+     /*Traitement quand dans une feuille*/
      if(nbEmpty(tab,taille) == 0){
           //Debug affichage noeud feuille
                /*printf("Solution dans feuille : ");

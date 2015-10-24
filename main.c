@@ -19,7 +19,7 @@ int main(int argc, char * argv[]){
     //stackTest();
     //bench_john_nlogn_vs_n2(100000);
     //Test for BB recursive core
-        /*int tailleTest = 10;
+        int tailleTest = 3;
         
         int * tab = calloc(tailleTest,sizeof(int)); 
         for(int i = 0;i<tailleTest;i++){
@@ -37,13 +37,14 @@ int main(int argc, char * argv[]){
         printf("\n");
         
         free(sol);
-        free(tab);*/
-        
-	    instance_t* t = instanceRead("ExempleInstance.txt");
+        free(tab);
+
+    //Test chargement enregistrement fichiers        
+	    /*instance_t* t = instanceRead("ExempleInstance.txt");
 	    
 	    instanceAfficher(t);
 	    instanceWrite(t,"EnregistrementInstanceTest.txt");
-	    instanceDetruire(t);
+	    instanceDetruire(t);*/
     
     return EXIT_SUCCESS;
 }

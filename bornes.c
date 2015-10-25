@@ -22,24 +22,27 @@ int inf_b1(instance_t *inst,int tA, int tB, int tC){
 	int sum_dA=0,sum_dB=0,sum_dC=0,min_dBC=INF,min_dC=INF,bA=0,bB=0,bC=0;
 	for(int i=0;i<inst->nb_elem;i++){
 		if(inst->ordre[i]!=-1){  //la tache n'a pas encore été choisie
+		//printf("\t\tnb\n");
 		//bA
 			sum_dA+=inst->A[i];
-			if(min_dBC<inst->B[i]+inst->C[i]){
-				min_dBC=inst->B[i]+inst->C[i];
+			if(min_dBC>(inst->B[i]+inst->C[i])){
+				min_dBC=(inst->B[i]+inst->C[i]);
 			}
 		//bB
 			sum_dB+=inst->B[i];
-			if(min_dC<inst->C[i]){
-				min_dC=inst->C[i];
+			if(min_dC>(inst->C[i])){
+				min_dC=(inst->C[i]);
 			}
 		//bC
 			sum_dC+=inst->C[i];
 		}		
 	}
+	
+	
 	bA=tA+sum_dA+min_dBC;
 	bB=tB+sum_dB+min_dC;
 	bC=tC+sum_dC;
-	printf("\t\tDebug calcul borne : bA %i,bB %i, bC %i,min_dBC %i,min_dC %i\n",bA,bB,bC,min_dBC,min_dC);
+	//printf("\t\tDebug calcul borne : bA %i,bB %i, bC %i,min_dBC %i,min_dC %i\n",bA,bB,bC,min_dBC,min_dC);
 	return max3(bA,bB,bC);
 }
 

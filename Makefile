@@ -5,8 +5,8 @@ CFLAGS = -O2 -g -Wall --std=c11
 # désactivation des règles implicites
 .SUFFIXES:
 
-all: main.o instance.o algo_approche.o test.o node.o tabStack.o exacte.o
-	$(CC) $(CFLAGS) main.o instance.o algo_approche.o test.o node.o tabStack.o exacte.o -o main
+all: main.o instance.o algo_approche.o test.o exacte.o
+	$(CC) $(CFLAGS) main.o instance.o algo_approche.o test.o exacte.o -o main
  
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o 
@@ -23,11 +23,9 @@ test.o: test.c
 exacte.o: exacte.c
 	$(CC) $(CFLAGS) -c exacte.c -o exacte.o
 	
-node.o: node.c
-	$(CC) $(CFLAGS) -c node.c -o node.o
-
-tabStack.o: tabStack.c
-	$(CC) $(CFLAGS) -c tabStack.c -o tabStack.o
+bornes.o: bornes.c
+	$(CC) $(CFLAGS) -c bornes.c -o bornes.o
+	
 
 
 # suppression des fichiers temporaires

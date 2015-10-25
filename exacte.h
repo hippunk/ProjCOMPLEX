@@ -1,9 +1,11 @@
 #ifndef EXACTE_H
 #define EXACTE_H
 
+#include "instance.h"
+
 int nbEmpty(int * tab, int taille);
-int * branch_bound_rec(int * tab,int * curSol,int taille,int curseur);
-int * branch_bound(int * tab,int taille);
+void branch_bound_rec(instance_t * inst,int * tab,int * curSol,int curseur,int * tA,int * tB,int* tC,int* borneInf);
+int * branch_bound(instance_t * inst);
 
 #endif
 

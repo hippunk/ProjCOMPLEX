@@ -4,8 +4,6 @@
 #include<sys/time.h>
 #include"instance.h"
 #include"test.h"
-#include"node.h"
-#include"tabStack.h"
 #include"algo_approche.h"
 
 double chrono(){
@@ -21,7 +19,7 @@ double chrono(){
 	return time;
 }
 
-void stackTest(){
+/*void stackTest(){
     printf("\nTest utilisation et fonctionnement de la pile\n");
     
     //Création de la pile
@@ -87,7 +85,7 @@ void nodeMemTest(){
     nodeInit(node,10);
     nodePrint(node);
     nodeDestroy(node);
-}
+}*/
 
 void bench_john_nlogn_vs_n2(int taille){
     

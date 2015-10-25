@@ -18,10 +18,10 @@ int nbEmpty(int * tab, int taille){
 	return cpt;
 }
 
-void branch_bound_rec(instance_t * inst,int * tab,int * curSol,int curseur,int * tA,int * tB,int* tC,int* borneInf){
+void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * tB,int* tC,int* borneInf){
 
     //Debug affichage données noeud courant 
-        printf("Solution partielle courante :");
+        printf("Solution partielle courante : ");
         for(int i = 0;i<curseur;i++){
              if(curSol[i]!=EMPTY){
                   printf("%i ",curSol[i]);
@@ -32,7 +32,7 @@ void branch_bound_rec(instance_t * inst,int * tab,int * curSol,int curseur,int *
         printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i\n\n",*tA,*tB,*tC,*borneInf);
 
      /*Traitement quand dans une feuille*/
-     if(nbEmpty(tab,inst->nb_elem) == 0){
+     if(nbEmpty(inst->ordre,inst->nb_elem) == 0){
           //Debug affichage noeud feuille
                /*printf("Solution dans feuille : ");
                for(int i = 0;i<curseur;i++){
@@ -43,21 +43,18 @@ void branch_bound_rec(instance_t * inst,int * tab,int * curSol,int curseur,int *
 
      for(int k = 0;k<inst->nb_elem;k++){
         //printf("Empty ? : %i \n",tab[k]);
-          if(tab[k]!=EMPTY){
+          if(inst->ordre[k]!=EMPTY){
                //printf("Tab k %i\n",tab[k]);
                //printf("\tProfondeur : %i, tab[k] : %i\n",curseur,tab[k]);
-               int tmp = tab[k];
+               int tmp = inst->ordre[k];
                //Copie des tX cause de flem réajustement propre pour noeuds frères
                    int tmptA = *tA;
                    int tmptB = *tB;
                    int tmptC = *tC;
                
-               tab[k] = EMPTY;  
+               inst->ordre[k] = EMPTY;  
                curSol[curseur] = tmp;   
-               //Addition simple pour test
-                   /**tA += inst->A[k];
-                   *tB += inst->B[k];
-                   *tC += inst->C[k];*/
+
                //Ajustement cout solution partielle
                	    *tA += inst->A[k];
 	                if(*tB < *tA){
@@ -71,11 +68,11 @@ void branch_bound_rec(instance_t * inst,int * tab,int * curSol,int curseur,int *
 			            *tC+=inst->C[k];
 		            }
                     
-               branch_bound_rec(inst,tab,curSol,curseur+1,tA,tB,tC,borneInf);
+               branch_bound_rec(inst,curSol,curseur+1,tA,tB,tC,borneInf);
                *tA = tmptA;
                *tB = tmptB;
                *tC = tmptC;
-               tab[k] = tmp;                 
+               inst->ordre[k] = tmp;                 
           }
      }
      
@@ -90,22 +87,19 @@ int * branch_bound(instance_t * inst){
      int * tC = calloc(1,sizeof(int));
      int * borneInf = calloc(1,sizeof(int));
      
-     int * tab = calloc(inst->nb_elem,sizeof(int)); 
-     for(int i = 0;i<inst->nb_elem;i++){
-        tab[i] = i+1;
-     }         
+     instance_t * t=instanceCopie(inst);
          
 
      printf("Démarage : tA = %i,tB = %i,tC = %i,borneInf = %i\n",*tA,*tB,*tC,*borneInf);
      for(int i = 0;i<inst->nb_elem;i++){
             curSol[i] = 0;
      }              
-     branch_bound_rec(inst,tab,curSol,0,tA,tB,tC,borneInf);     
+     branch_bound_rec(t,curSol,0,tA,tB,tC,borneInf);     
      
      free(tA);
      free(tB);
      free(tC);
-     free(tab);
+
      free(borneInf); 
      return curSol;
 

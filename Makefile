@@ -5,8 +5,8 @@ CFLAGS = -O2 -g -Wall --std=c11
 # désactivation des règles implicites
 .SUFFIXES:
 
-all: main.o instance.o algo_approche.o test.o exacte.o
-	$(CC) $(CFLAGS) main.o instance.o algo_approche.o test.o exacte.o -o main
+all: main.o instance.o algo_approche.o test.o exacte.o bornes.o
+	$(CC) $(CFLAGS) main.o instance.o algo_approche.o test.o exacte.o bornes.o -o main
  
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o 

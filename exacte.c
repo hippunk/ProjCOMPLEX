@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<limits.h>
-#include "exacte.h"
 #include "instance.h"
+#include "exacte.h"
 #include "algo_approche.h"
+#include "bornes.h"
+
 #define EMPTY -1
-#define INF INT_MAX
+
 
 int nbEmpty(int * tab, int taille){
      int cpt = 0;
@@ -27,6 +28,7 @@ void branch_bound_rec(instance_t * inst,int * tab,int * curSol,int curseur,int *
              }
         }
         printf("\n");
+        *borneInf = inf_bMax(inst,*tA,*tB,*tC);
         printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i\n\n",*tA,*tB,*tC,*borneInf);
 
      /*Traitement quand dans une feuille*/
@@ -68,8 +70,6 @@ void branch_bound_rec(instance_t * inst,int * tab,int * curSol,int curseur,int *
 		            }else{
 			            *tC+=inst->C[k];
 		            }
-		            
-               *borneInf = 0;
                     
                branch_bound_rec(inst,tab,curSol,curseur+1,tA,tB,tC,borneInf);
                *tA = tmptA;

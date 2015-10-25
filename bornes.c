@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<limits.h>
 #include "instance.h"
 #include "bornes.h"
+
+#define INF INT_MAX
+
 
 int max3(int a, int b, int c){
 	if(a>=b){

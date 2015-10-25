@@ -39,6 +39,7 @@ int inf_b1(instance_t *inst,int tA, int tB, int tC){
 	bA=tA+sum_dA+min_dBC;
 	bB=tB+sum_dB+min_dC;
 	bC=tC+sum_dC;
+	printf("\t\tDebug calcul borne : bA %i,bB %i, bC %i,min_dBC %i,min_dC %i\n",bA,bB,bC,min_dBC,min_dC);
 	return max3(bA,bB,bC);
 }
 

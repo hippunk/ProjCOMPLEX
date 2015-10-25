@@ -28,11 +28,11 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
              }
         }
         printf("\n");
-        *borneInf = inf_bMax(inst,*tA,*tB,*tC);
-        printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i\n\n",*tA,*tB,*tC,*borneInf);
+     *borneInf = inf_b1(inst,*tA,*tB,*tC);
+     printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i\n\n",*tA,*tB,*tC,*borneInf);
 
-     /*Traitement quand dans une feuille*/
-     if(nbEmpty(inst->ordre,inst->nb_elem) == 0){
+    /*Traitement quand dans une feuille*/
+    if(nbEmpty(inst->ordre,inst->nb_elem) == 0){
           //Debug affichage noeud feuille
                /*printf("Solution dans feuille : ");
                for(int i = 0;i<curseur;i++){
@@ -42,10 +42,10 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
      }
 
      for(int k = 0;k<inst->nb_elem;k++){
-        //printf("Empty ? : %i \n",tab[k]);
-          if(inst->ordre[k]!=EMPTY){
-               //printf("Tab k %i\n",tab[k]);
-               //printf("\tProfondeur : %i, tab[k] : %i\n",curseur,tab[k]);
+         //printf("Empty ? : %i \n",tab[k]);
+         if(inst->ordre[k]!=EMPTY){
+             //printf("Tab k %i\n",tab[k]);
+             //printf("\tProfondeur : %i, tab[k] : %i\n",curseur,tab[k]);
                int tmp = inst->ordre[k];
                //Copie des tX cause de flem réajustement propre pour noeuds frères
                    int tmptA = *tA;

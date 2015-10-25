@@ -4,8 +4,8 @@
 
 int max3(int a, int b, int c);
 int inf_b1(instance_t *inst,int tA, int tB, int tC);	
-int inf_b2(instance_t *inst, int tA);	
-int inf_b3(instance_t *inst, int tB);
+int inf_b2(instance_t *inst,int tA, int tB, int tC);	
+int inf_b3(instance_t *inst,int tA, int tB, int tC);
 int inf_bMax(instance_t *inst,int tA, int tB, int tC);
 
 #endif

@@ -43,7 +43,7 @@ int inf_b1(instance_t *inst,int tA, int tB, int tC){
 }
 
 	
-int inf_b2(instance_t *inst, int tA){
+int inf_b2(instance_t *inst,int tA, int tB, int tC){
 	int sum_dK=0, sum_dA=0,sum_dC=0,max=0;
 	for(int i=0;i<inst->nb_elem;i++){
 		for(int j=0;j<inst->nb_elem;j++){
@@ -64,7 +64,7 @@ int inf_b2(instance_t *inst, int tA){
 	return tA+max; //on n'a pas besoin de tA ici mais c'es un question de cohérence avec b1
 }
 	
-int inf_b3(instance_t *inst, int tB){
+int inf_b3(instance_t *inst,int tA, int tB, int tC){
 	int sum_dK=0, sum_dB=0,sum_dC=0,max=0;
 	for(int i=0;i<inst->nb_elem;i++){
 		for(int j=0;j<inst->nb_elem;j++){
@@ -87,7 +87,7 @@ int inf_b3(instance_t *inst, int tB){
 int inf_bMax(instance_t *inst,int tA, int tB, int tC){
 	int b1=0,b2=0,b3=0;
 	b1=inf_b1(inst,tA,tB,tC);
-	b2=inf_b2(inst,tA);
-	b3=inf_b3(inst,tB);
+	b2=inf_b2(inst,tA,tB,tC);
+	b3=inf_b3(inst,tA,tB,tC);
 	return max3(b1,b2,b3);
 }

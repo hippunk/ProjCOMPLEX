@@ -11,7 +11,7 @@ typedef struct instance_s{
 	int *C;
 }instance_t;
 
-
+void instanceTachePermuter(instance_t * inst,int i,int j);
 int aleatoire(int min,int max);
 instance_t * instanceCreer(int nb_elem,char * nom);
 void instanceInit(instance_t * inst);

@@ -18,18 +18,22 @@ int main(int argc, char * argv[]){
     //bench_john_nlogn_vs_n2(100000);
     //Test for BB recursive core
 
-        instance_t* t = instanceRead("instanceTest");
+        instance_t* t = instanceRead("ExempleInstance.txt");
         instanceAfficher(t);
-        int * sol = branch_bound(t);
+      	/*instance_t* johnlogn = johnsonnlogn(t,0);
+	    instanceAfficher(johnlogn);*/
       
-        printf("Solution finale :");
+        instance_t * sol = branch_bound(t);
+      
+        /*printf("Solution finale :");
         for(int i = 0;i<t->nb_elem;i++){
             printf(" %i",sol[i]);
         }           
-        printf("\n");
+        printf("\n");*/
         
-        free(sol);
+        //instanceDetruire(sol);
         instanceDetruire(t);
+        //instanceDetruire(johnlogn);
 
     return EXIT_SUCCESS;
 }

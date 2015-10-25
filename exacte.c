@@ -18,7 +18,7 @@ int nbEmpty(int * tab, int taille){
 	return cpt;
 }
 
-void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * tB,int* tC,int* borneInf){
+void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * tB,int* tC,int* bestBorneInf,int* bestBorneSup,instance_t ** solution){
 
     //Debug affichage données noeud courant 
         printf("Solution partielle courante : ");
@@ -28,8 +28,18 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
              }
         }
         printf("\n");
-     *borneInf = inf_b1(inst,*tA,*tB,*tC);
-     printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i\n\n",*tA,*tB,*tC,*borneInf);
+        
+     //Borne inférieur   
+     int bi = inf_b1(inst,*tA,*tB,*tC);
+     //Borne supérieur
+     instance_t * insttmp = NULL;
+     int bs = sup_b1(inst,curseur,&insttmp);
+     //Drop de la solution si pas intéressant
+        instanceDetruire(insttmp);
+     
+     printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i,borneSup %i\n\n",*tA,*tB,*tC,bi,bs);
+     
+     //instanceAfficher(inst);
 
     /*Traitement quand dans une feuille*/
     if(nbEmpty(inst->ordre,inst->nb_elem) == 0){
@@ -53,7 +63,9 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
                    int tmptC = *tC;
                
                inst->ordre[k] = EMPTY;  
-               curSol[curseur] = tmp;   
+               curSol[curseur] = tmp; 
+               
+               
 
                //Ajustement cout solution partielle
                	    *tA += inst->A[k];
@@ -67,40 +79,45 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
 		            }else{
 			            *tC+=inst->C[k];
 		            }
-                    
-               branch_bound_rec(inst,curSol,curseur+1,tA,tB,tC,borneInf);
+		            
+               instanceTachePermuter(inst,curseur,k);     
+               branch_bound_rec(inst,curSol,curseur+1,tA,tB,tC,bestBorneInf,bestBorneSup,solution);
+               instanceTachePermuter(inst,k,curseur); 
+               inst->ordre[k] = tmp;   
                *tA = tmptA;
                *tB = tmptB;
                *tC = tmptC;
-               inst->ordre[k] = tmp;                 
+                             
           }
      }
-     
-     //return curSol; 
 }
 /*tab et taille ammenés à être remplacé par instance t avec passage des fonctions de borne */
-int * branch_bound(instance_t * inst){
+instance_t * branch_bound(instance_t * inst){
 
      int * curSol = calloc(inst->nb_elem,sizeof(int));
      int * tA = calloc(1,sizeof(int));
      int * tB = calloc(1,sizeof(int));
      int * tC = calloc(1,sizeof(int));
-     int * borneInf = calloc(1,sizeof(int));
+     int * bestBorneInf = calloc(1,sizeof(int));
+     int * bestBorneSup = calloc(1,sizeof(int));
      
-     instance_t * t=instanceCopie(inst);
+     instance_t * t = instanceCopie(inst);
+     instance_t * solution = NULL;
          
 
-     printf("Démarage : tA = %i,tB = %i,tC = %i,borneInf = %i\n",*tA,*tB,*tC,*borneInf);
+     printf("Démarage : tA = %i,tB = %i,tC = %i,borneInf = %i\n",*tA,*tB,*tC,*bestBorneInf);
      for(int i = 0;i<inst->nb_elem;i++){
             curSol[i] = 0;
      }              
-     branch_bound_rec(t,curSol,0,tA,tB,tC,borneInf);     
+     branch_bound_rec(t,curSol,0,tA,tB,tC,bestBorneInf,bestBorneSup,&solution);     
      
      free(tA);
      free(tB);
      free(tC);
-
-     free(borneInf); 
-     return curSol;
+     free(curSol);
+     free(bestBorneInf); 
+     free(bestBorneSup); 
+     instanceDetruire(t);
+     return solution;
 
 }

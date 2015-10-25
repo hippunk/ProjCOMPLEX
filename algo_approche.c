@@ -72,11 +72,11 @@ void tri_fusion_bis(int **tableau,int deb,int fin)
     }
 }
 
-void fusionSortHard3Tuple(int **tableau,int longueur)
+void fusionSortHard3Tuple(int **tableau,int start,int longueur)
 {
-    if (longueur>0)
+    if (longueur-start>0)
     {
-        tri_fusion_bis(tableau,0,longueur-1);
+        tri_fusion_bis(tableau,start,longueur-1);
     }
 }
  
@@ -137,26 +137,26 @@ void tabTacheDestruct(int** tab){
     free(tab);
 }
          
-instance_t* johnsonnlogn(instance_t* inst){
+instance_t* johnsonnlogn(instance_t* inst,int start){
 	int g_pos = 0,d_pos = 0;
 	instance_t* t;
 	instance_t* new;
 	int ** tab;
 	
 	t=instanceCopie(inst);
-	new=instanceCreer(t->nb_elem,"Johnsonnlogn");
-	instanceInit(new);
+	new=instanceCopie(inst);
+
 	tab = tabTacheConstruct(t);
 	//tabTacheDebug(tab,t->nb_elem);
 	
-	fusionSortHard3Tuple(tab,t->nb_elem);
+	fusionSortHard3Tuple(tab,start,t->nb_elem);
 	
 	//tabTacheDebug(tab,t->nb_elem);
 	
-	g_pos=0;
+	g_pos=start;
 	d_pos=t->nb_elem-1;
 	
-	for(int i=0;i<t->nb_elem;i++){
+	for(int i=start;i<t->nb_elem;i++){
 		
 
 		if(tab[2][i]==0){ //durée de tache min est sur la machine A -> on rajoute en début 

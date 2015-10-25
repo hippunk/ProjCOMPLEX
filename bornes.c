@@ -2,10 +2,20 @@
 #include <stdlib.h>
 #include<limits.h>
 #include "instance.h"
+#include "algo_approche.h"
 #include "bornes.h"
 
 #define INF INT_MAX
 
+
+int sup_b1(instance_t *inst,int curseur,instance_t **result){
+     
+     *result = johnsonnlogn(inst,curseur);
+     return instanceCout(*result);
+
+      
+}
+		
 
 int max3(int a, int b, int c){
 	if(a>=b){

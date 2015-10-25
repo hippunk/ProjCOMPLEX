@@ -97,7 +97,7 @@ void bench_john_nlogn_vs_n2(int taille){
 	instanceRandNC(t);
 	//instanceAfficher(t);
 
-	instance_t* johnlogn = johnsonnlogn(t);
+	instance_t* johnlogn = johnsonnlogn(t,1);
 	//instanceAfficher(johnlogn);
 	printf("Temps d'execution nlogn : %.6f secondes.\n",chrono());
 	

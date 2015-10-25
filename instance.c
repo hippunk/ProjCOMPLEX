@@ -22,6 +22,23 @@ instance_t * instanceCreer(int nb_elem,char * nom){
 	return inst;
 }
 
+void instanceTachePermuter(instance_t * inst,int i,int j){
+    int tmpo = inst->ordre[i];
+    int tmpa = inst->A[i];
+    int tmpb = inst->B[i];
+    int tmpc = inst->C[i];
+    
+    inst->ordre[i] = inst->ordre[j];
+    inst->A[i] = inst->A[j];
+    inst->B[i] = inst->B[j];
+    inst->C[i] = inst->C[j];
+    
+    inst->ordre[j] = tmpo;
+    inst->A[j] = tmpa;
+    inst->B[j] = tmpb;
+    inst->C[j] = tmpc;
+}
+
 void instanceInit(instance_t * inst){
 	for(int i = 0;i<inst->nb_elem;i++){
 	    inst->ordre[i] = i;

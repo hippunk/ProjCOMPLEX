@@ -25,13 +25,14 @@ int nbEmpty(int * tab, int taille){
 void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * tB,int* tC,int* bestBorneInf,int* bestBorneSup,instance_t ** solution){
 
     //Debug affichage données noeud courant 
-        printf("Solution partielle courante : ");
+        printf("\n\n\nSolution partielle courante : ");
         for(int i = 0;i<curseur;i++){
              if(curSol[i]!=EMPTY){
                   printf("%i ",curSol[i]);
              }
         }
         printf("\n");
+        instanceAfficher(inst);
         
      //Borne inférieur   
      int bi = inf_b1(inst,*tA,*tB,*tC);
@@ -43,20 +44,27 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
      if(bs<*bestBorneSup){
         *bestBorneSup=bs;
      }
-     if(bi>=*bestBorneSup){
-     printf("\t\t\t\tCOUPURE\n");
-        if(bi==*bestBorneSup){
-            printf("\t\t\t\tSOLUTION\n");
-            /*if(*solution != NULL){
-                free(*solution);
-            }*/
+     if(bi>*bestBorneSup){
+        printf("\t\t\tCOUPURE\n");
+        if(bi==bs){
+        printf("\t\t\tSOLUTION\n");
+            if(*solution != NULL){
+                instanceDetruire(*solution);
+            }
             *solution = instanceCopie(insttmp);
+             //Faute de mieux pour l'instant, reconstruction de l'ordre à l'arache.
+            	for(int i = 0;i<curseur;i++){
+                    (*solution)->ordre[i] = curSol[i];
+                }
+                for(int i = curseur;i<inst->nb_elem;i++){
+                    (*solution)->ordre[i] = inst->ordre[i];
+                }
         }
      }
      else
      {    
                  
-         //instanceAfficher(inst);
+         
 
         /*Traitement quand dans une feuille*/
         if(nbEmpty(inst->ordre,inst->nb_elem) == 0){
@@ -125,7 +133,7 @@ instance_t * branch_bound(instance_t * inst){
      instance_t * solution = NULL;
          
 
-     printf("Démarage : tA = %i,tB = %i,tC = %i,borneInf = %i\n",*tA,*tB,*tC,*bestBorneInf);
+     //printf("Démarage : tA = %i,tB = %i,tC = %i,borneInf = %i\n",*tA,*tB,*tC,*bestBorneInf);
      for(int i = 0;i<inst->nb_elem;i++){
             curSol[i] = 0;
      }              

@@ -25,13 +25,10 @@ int main(int argc, char * argv[]){
       
         instance_t * sol = branch_bound(t);
       
-        /*printf("Solution finale :");
-        for(int i = 0;i<t->nb_elem;i++){
-            printf(" %i",sol[i]);
-        }           
-        printf("\n");*/
+        printf("Solution finale :");
+        instanceAfficher(sol);
         
-        //instanceDetruire(sol);
+        instanceDetruire(sol);
         instanceDetruire(t);
         //instanceDetruire(johnlogn);
 

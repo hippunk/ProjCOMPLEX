@@ -12,9 +12,7 @@ int sup_b1(instance_t *inst,int curseur,instance_t **result){
      
      *result = johnsonnlogn(inst,curseur);
      //instanceAfficher(*result);
-     return instanceCout(*result);
-
-      
+     return instanceCout(*result);      
 }
 		
 

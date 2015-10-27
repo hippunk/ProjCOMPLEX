@@ -20,8 +20,8 @@ int main(int argc, char * argv[]){
 
         instance_t* t = instanceRead("ExempleInstance.txt");
         instanceAfficher(t);
-      	/*instance_t* johnlogn = johnsonnlogn(t,0);
-	    instanceAfficher(johnlogn);*/
+      	instance_t* johnlogn = johnsonnlogn(t,0);
+	    instanceAfficher(johnlogn);
       
         instance_t * sol = branch_bound(t);
       

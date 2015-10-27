@@ -25,38 +25,50 @@ int nbEmpty(int * tab, int taille){
 void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * tB,int* tC,int* bestBorneInf,int* bestBorneSup,instance_t ** solution){
 
     //Debug affichage données noeud courant 
-        printf("\n\n\nSolution partielle courante : ");
+        /*printf("\n\n\nSolution partielle courante : ");
         for(int i = 0;i<curseur;i++){
              if(curSol[i]!=EMPTY){
                   printf("%i ",curSol[i]);
              }
         }
         printf("\n");
-        instanceAfficher(inst);
+        instanceAfficher(inst);*/
         
      //Borne inférieur   
-     int bi = inf_b1(inst,*tA,*tB,*tC);
+     int bi = inf_b3(inst,*tA,*tB,*tC);
      //Borne supérieur
      instance_t * insttmp = NULL;
      int bs = sup_b1(inst,curseur,&insttmp);
      
      if(*bestBorneSup>bs){
         *bestBorneSup=bs;
-                *solution = instanceCopie(insttmp);
-         //Faute de mieux pour l'instant, reconstruction de l'ordre à l'arache.
-        	for(int i = 0;i<curseur;i++){
-                (*solution)->ordre[i] = curSol[i];
-            }
-            for(int i = curseur;i<inst->nb_elem;i++){
-                (*solution)->ordre[i] = inst->ordre[i];
-            }
+
      }
      
-     printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i,borneSup %i,best %i\n\n",*tA,*tB,*tC,bi,bs,*bestBorneSup);
+     if(*bestBorneSup>=instanceCout(insttmp)){
+        if(*solution!=NULL){
+            instanceDetruire(*solution);}
+            //instanceAfficher(inst);
+         *solution = instanceCopie(insttmp);
+        //Faute de mieux pour l'instant, reconstruction de l'ordre à l'arache.
+        //printf("CurSol : ");
+        	for(int i = 0;i<curseur;i++){
+                (*solution)->ordre[i] = curSol[i];
+                //printf(" %i",curSol[i]);
+            }
+            //printf("\n");
+            /*for(int i = curseur;i<inst->nb_elem;i++){
+                (*solution)->ordre[i] = inst->ordre[i];
+            }*/
+     }
+     instanceDetruire(insttmp);
+     //printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i,borneSup %i,best %i\n\n",*tA,*tB,*tC,bi,bs,*bestBorneSup);
      //Bound
      
-
-       
+    if(*bestBorneSup <= bi){
+       //printf("\t\tCOUPURE\n\n\n");
+    }
+     else{  
 
         /*Traitement quand dans une feuille*/
         if(nbEmpty(inst->ordre,inst->nb_elem) == 0){
@@ -105,6 +117,7 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
                                  
               }
          }
+     }
 }
 /*tab et taille ammenés à être remplacé par instance t avec passage des fonctions de borne */
 instance_t * branch_bound(instance_t * inst){
@@ -136,7 +149,7 @@ instance_t * branch_bound(instance_t * inst){
      free(bestBorneInf); 
      free(bestBorneSup); 
      instanceDetruire(t);
-     printf("Sortie\n");
+     //printf("Sortie\n");
      return solution;
 
 }

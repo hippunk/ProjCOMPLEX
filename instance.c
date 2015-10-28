@@ -128,7 +128,7 @@ void instanceAfficher(instance_t * inst){
 	    printf("# %5i # %5i # %9i # %9i # %9i #\n",i,inst->ordre[i],inst->A[i],inst->B[i],inst->C[i]);
 
 	}
-	printf("######################################################\n");
+	printf("#####################################################\n");
 	printf("Cout : %i\n",instanceCout(inst));
 }
 

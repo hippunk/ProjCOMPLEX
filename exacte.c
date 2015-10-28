@@ -31,22 +31,26 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
                   printf("%i ",curSol[i]);
              }
         }
-        printf("\n");
-        instanceAfficher(inst);*/
-        
+        printf("\n");*/
+        //instanceAfficher(inst);
+     
      //Borne inférieur   
-     int bi = inf_b3(inst,*tA,*tB,*tC);
+     int bi = inf_bMax(inst,*tA,*tB,*tC);
      //Borne supérieur
      instance_t * insttmp = NULL;
      int bs = sup_b1(inst,curseur,&insttmp);
+     
+     //printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i,borneSup %i,best %i\n\n",*tA,*tB,*tC,bi,bs,*bestBorneSup);   
      
      if(*bestBorneSup>bs){
         *bestBorneSup=bs;
 
      }
      
-     if(*bestBorneSup>=instanceCout(insttmp)){
+    if(bi==*bestBorneSup && bi==bs && instanceCout(*solution) != bs){
+        //printf("\t\tSSOLUTION\n\n\n");
         if(*solution!=NULL){
+        
             instanceDetruire(*solution);}
             //instanceAfficher(inst);
          *solution = instanceCopie(insttmp);
@@ -57,15 +61,12 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
                 //printf(" %i",curSol[i]);
             }
             //printf("\n");
-            /*for(int i = curseur;i<inst->nb_elem;i++){
+            for(int i = curseur;i<inst->nb_elem;i++){
                 (*solution)->ordre[i] = inst->ordre[i];
-            }*/
+            }
      }
-     instanceDetruire(insttmp);
-     //printf("\tContenu du noeud : tA = %i,tB = %i,tC = %i,borneInf = %i,borneSup %i,best %i\n\n",*tA,*tB,*tC,bi,bs,*bestBorneSup);
-     //Bound
-     
-    if(*bestBorneSup <= bi){
+          
+    else if(*bestBorneSup < bi){
        //printf("\t\tCOUPURE\n\n\n");
     }
      else{  
@@ -118,6 +119,7 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
               }
          }
      }
+     instanceDetruire(insttmp);
 }
 /*tab et taille ammenés à être remplacé par instance t avec passage des fonctions de borne */
 instance_t * branch_bound(instance_t * inst){
@@ -133,8 +135,9 @@ instance_t * branch_bound(instance_t * inst){
      *bestBorneInf = INF;
      
      instance_t * t = instanceCopie(inst);
-     instance_t * solution = NULL;
-         
+     instance_t * solution = instanceCreer(inst->nb_elem,"Propre");
+     instanceInit(solution);    
+     //instanceAfficher(solution);
 
      //printf("Démarage : tA = %i,tB = %i,tC = %i,borneInf = %i\n",*tA,*tB,*tC,*bestBorneInf);
      for(int i = 0;i<inst->nb_elem;i++){

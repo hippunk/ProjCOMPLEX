@@ -59,20 +59,24 @@ int inf_b1(instance_t *inst,int tA, int tB, int tC){
 int inf_b2(instance_t *inst,int tA, int tB, int tC){
 	int sum_dK=0, sum_dA=0,sum_dC=0,max=0;
 	for(int i=0;i<inst->nb_elem;i++){
-		for(int j=0;j<inst->nb_elem;j++){
-			if(inst->A[j]<=inst->C[j]){
-				sum_dA+=inst->A[j];
-			}else{
-				sum_dC+=inst->C[j];
-			}
+	    if(inst->ordre[i]!=-1){
+		    for(int j=0;j<inst->nb_elem;j++){
+		        if(i!=j && inst->ordre[j]!=-1){
+			        if(inst->A[j]<=inst->C[j]){
+			        	sum_dA+=inst->A[j];
+			        }else{
+				        sum_dC+=inst->C[j];
+			        }
+			    }
+		    }
+		    sum_dK=inst->A[i]+inst->B[i]+inst->C[i];		
+		    if(sum_dK+sum_dA+sum_dC>max){
+			    max=sum_dK+sum_dA+sum_dC;
+		    }
+		    sum_dK=0;
+		    sum_dA=0;
+		    sum_dC=0;
 		}
-		sum_dK=inst->A[i]+inst->B[i]+inst->C[i];		
-		if(sum_dK+sum_dA+sum_dC>max){
-			max=sum_dK+sum_dA+sum_dC;
-		}
-		sum_dK=0;
-		sum_dA=0;
-		sum_dC=0;
 	}
 	return tA+max; //on n'a pas besoin de tA ici mais c'es un question de cohérence avec b1
 }
@@ -80,20 +84,24 @@ int inf_b2(instance_t *inst,int tA, int tB, int tC){
 int inf_b3(instance_t *inst,int tA, int tB, int tC){
 	int sum_dK=0, sum_dB=0,sum_dC=0,max=0;
 	for(int i=0;i<inst->nb_elem;i++){
-		for(int j=0;j<inst->nb_elem;j++){
-			if(inst->B[j]<=inst->C[j]){
-				sum_dB+=inst->B[j];
-			}else{
-				sum_dC+=inst->C[j];
-			}
+	    if(inst->ordre[i]!=-1){
+		    for(int j=0;j<inst->nb_elem;j++){
+		        if(i!=j && inst->ordre[j]!=-1){
+			        if(inst->B[j]<=inst->C[j]){
+				        sum_dB+=inst->B[j];
+			        }else{
+				        sum_dC+=inst->C[j];
+			        }
+			    }
+		    }
+		    sum_dK=inst->B[i]+inst->C[i];		
+		    if(sum_dK+sum_dB+sum_dC>max){
+			    max=sum_dK+sum_dB+sum_dC;
+		    }
+		    sum_dK=0;
+		    sum_dB=0;
+		    sum_dC=0;
 		}
-		sum_dK=inst->B[i]+inst->C[i];		
-		if(sum_dK+sum_dB+sum_dC>max){
-			max=sum_dK+sum_dB+sum_dC;
-		}
-		sum_dK=0;
-		sum_dB=0;
-		sum_dC=0;
 	}
 	return tB+max; //on n'a pas besoin de tB ici mais c'es un question de cohérence avec b1
 }

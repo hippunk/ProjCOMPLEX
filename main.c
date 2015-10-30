@@ -6,22 +6,20 @@
 #include "test.h"
 #include "exacte.h"
 
-
-
 int main(int argc, char * argv[]){
 
 
 
     srand(time(NULL));
-    
+    chrono();    
     //stackTest();
     //bench_john_nlogn_vs_n2(100000);
     //Test for BB recursive core
 
         instance_t* t = instanceRead("ExempleInstance.txt");
         instanceAfficher(t);
-      	instance_t* johnlogn = johnsonnlogn(t,0);
-	    instanceAfficher(johnlogn);
+      	//instance_t* johnlogn = johnsonnlogn(t,0);
+	    //instanceAfficher(johnlogn);
       
         instance_t * sol = branch_bound(t);
       
@@ -31,6 +29,6 @@ int main(int argc, char * argv[]){
         instanceDetruire(sol);
         instanceDetruire(t);
         //instanceDetruire(johnlogn);
-
+    printf("Temps d'execution n^2 : %.6f secondes.\n",chrono());
     return EXIT_SUCCESS;
 }

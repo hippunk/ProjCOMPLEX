@@ -22,7 +22,7 @@ int nbEmpty(int * tab, int taille){
 	return cpt;
 }
 
-void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * tB,int* tC,int* bestBorneInf,int* bestBorneSup,instance_t ** solution){
+void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * tB,int* tC,int* bestBorneInf,int* bestBorneSup,instance_t ** solution, int * nodeCount){
 
     //Debug affichage données noeud courant 
         /*printf("\n\n\nSolution partielle courante : ");
@@ -33,7 +33,7 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
         }
         printf("\n");*/
         //instanceAfficher(inst);
-     
+     *nodeCount += 1;
      //Borne inférieur   
      int bi = inf_bMax(inst,*tA,*tB,*tC);
      //Borne supérieur
@@ -109,7 +109,7 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
 		                }
 		                
                    instanceTachePermuter(inst,curseur,k);     
-                   branch_bound_rec(inst,curSol,curseur+1,tA,tB,tC,bestBorneInf,bestBorneSup,solution);
+                   branch_bound_rec(inst,curSol,curseur+1,tA,tB,tC,bestBorneInf,bestBorneSup,solution,nodeCount);
                    instanceTachePermuter(inst,k,curseur); 
                    inst->ordre[k] = tmp;   
                    *tA = tmptA;
@@ -122,7 +122,7 @@ void branch_bound_rec(instance_t * inst,int * curSol,int curseur,int * tA,int * 
      instanceDetruire(insttmp);
 }
 /*tab et taille ammenés à être remplacé par instance t avec passage des fonctions de borne */
-instance_t * branch_bound(instance_t * inst){
+instance_t * branch_bound(instance_t * inst,int * nodeCount){
 
      int * curSol = calloc(inst->nb_elem,sizeof(int));
      int * tA = calloc(1,sizeof(int));
@@ -143,7 +143,8 @@ instance_t * branch_bound(instance_t * inst){
      for(int i = 0;i<inst->nb_elem;i++){
             curSol[i] = 0;
      }              
-     branch_bound_rec(t,curSol,0,tA,tB,tC,bestBorneInf,bestBorneSup,&solution);     
+     
+     branch_bound_rec(t,curSol,0,tA,tB,tC,bestBorneInf,bestBorneSup,&solution,nodeCount);     
      
      free(tA);
      free(tB);

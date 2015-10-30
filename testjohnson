@@ -249,21 +249,6 @@
 24800 0.8077 0.0077 0.8069 0.0072 0.8068 0.0075
 24900 0.8147 0.0077 0.8137 0.0073 0.8163 0.0076
 25000 0.8215 0.0079 0.8215 0.0073 0.8207 0.0077
-
-
- plot \
- "testjohnson" using 1:2 title 'Données non-corrélées n^2', \
- "testjohnson" using 1:3 title 'Données non-corrélées n log n', \
- "testjohnson" using 1:4 title 'Corrélation sur les durées d exécution n^2', \
- "testjohnson" using 1:5 title 'Corrélation sur les durées d exécution n log n', \
- "testjohnson" using 1:6 title 'Corrélation sur les machines n^2', \
- "testjohnson" using 1:7 title 'Corrélation sur les machines n log n'
  
-  plot \
- "testjohnson" using 1:2 , \
- "testjohnson" using 1:3 , \
- "testjohnson" using 1:4 , \
- "testjohnson" using 1:5 , \
- "testjohnson" using 1:6 , \
- "testjohnson" using 1:7 
+
 

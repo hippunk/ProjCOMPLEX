@@ -3,6 +3,8 @@
 #define TEST_H
 
 double chrono();
+void johnsonTest(int instMax);
+void exactTest(int instMax,int loop);
 void nodeMemTest();
 void bench_john_nlogn_vs_n2(int taille);
 void instance_test();

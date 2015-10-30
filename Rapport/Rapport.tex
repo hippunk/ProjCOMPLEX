@@ -1,0 +1,139 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX Template: Project Titlepage Modified (v 0.1) by rcx
+%
+% Original Source: http://www.howtotex.com
+% Date: February 2014
+% 
+% This is a title page template which be used for articles & reports.
+% 
+% This is the modified version of the original Latex template from
+% aforementioned website.
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{article}
+\usepackage[a4paper]{geometry}
+\usepackage[myheadings]{fullpage}
+\usepackage{fancyhdr}
+
+\usepackage{lastpage}
+\usepackage{graphicx, wrapfig, subcaption, setspace, booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[font=small, labelfont=bf]{caption}
+\usepackage{fourier}
+\usepackage[protrusion=true, expansion=true]{microtype}
+\usepackage[french]{babel}
+\usepackage{sectsty}
+\usepackage{url, lipsum}
+
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\onehalfspacing
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+%-------------------------------------------------------------------------------
+% HEADER & FOOTER
+%-------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\setlength\headheight{15pt}
+\fancyhead[L]{Arthur Ramolet, Yacine Richthofen}
+\fancyhead[R]{UPMC}
+\fancyfoot[R]{\thepage\ / \pageref{LastPage}}
+%-------------------------------------------------------------------------------
+% TITLE PAGE
+%-------------------------------------------------------------------------------
+
+\begin{document}
+
+\title{ \normalsize \textsc{COMPLEX}
+		\\ [2.0cm]
+		\HRule{0.5pt} \\
+		\LARGE \textbf{\uppercase{Ordonnancement de tâches sur des machines en série}}
+		\HRule{2pt} \\ [0.5cm]
+		\normalsize \today \vspace*{5\baselineskip}}
+
+\date{}
+
+\author{
+		Arthur Ramolet, Yacine Richthofen \\ 
+		Université Pierre et Marie Curie \\
+		Année Universitaire 2015-2016 }
+
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+%-------------------------------------------------------------------------------
+% Section title formatting
+\sectionfont{\scshape}
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+% BODY
+%-------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	INTRO
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+
+
+%----------------------------------------------------------------------------------------
+%	PART 1
+%----------------------------------------------------------------------------------------
+
+\section{Algorithme approché avec garantie de performance}
+
+
+%------------------------------------------------
+
+\subsection{Calcul d'histogramme}
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	Part 2
+%----------------------------------------------------------------------------------------
+
+\section{Méthode exacte}
+
+
+%------------------------------------------------
+
+
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	PART 3
+%----------------------------------------------------------------------------------------
+
+\section{Méthode de recherche arborescente approchée}
+
+
+%------------------------------------------------
+
+\section{Conclusion}
+
+
+%Figure : \ref{pouthisteqr}
+
+%\newpage
+%\begin{figure}[!t]
+%\centering
+%\centerline{\includegraphics{moon.jpg}}
+%\caption{L'image moon.tif.}
+%\label{moontif}
+%\end{figure}
+
+
+
+\end{document}

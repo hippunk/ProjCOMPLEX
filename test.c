@@ -4,7 +4,7 @@
 #include<sys/time.h>
 #include"instance.h"
 #include"test.h"
-#include "exacte.h"
+#include "exact.h"
 #include"algo_approche.h"
 
 double chrono(){

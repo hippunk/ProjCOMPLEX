@@ -180,7 +180,7 @@ instance_t* johnsonnlogn(instance_t* inst,int start){
 	return new;
 }
                                
-instance_t* johnson(instance_t* inst){
+instance_t* johnson(instance_t* inst){// Complexité: O(n²)
 	int i = 0,j = 0,g_pos = 0,d_pos = 0;
 	instance_t* t;
 	instance_t* new;

@@ -39,7 +39,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \setlength\headheight{15pt}
-\fancyhead[L]{Emmanuel Debezenac, Arthur Ramolet}
+\fancyhead[L]{Emmanuel de Bézenac, Arthur Ramolet}
 \fancyhead[R]{UPMC}
 \fancyfoot[R]{\thepage\ / \pageref{LastPage}}
 %-------------------------------------------------------------------------------
@@ -58,7 +58,7 @@
 \date{}
 
 \author{
-		Emmanuel Debezenac, Arthur Ramolet \\ 
+		Emmanuel de Bézenac, Arthur Ramolet \\ 
 		Université Pierre et Marie Curie \\
 		Année Universitaire 2015-2016 }
 
@@ -81,10 +81,14 @@
 \newpage
 \section{Introduction}
 
-Le but de ce projet est de déterminer l'ordre optimal de passage de pièces dans un atelier de fabrication, de façon à ce que les pièces soient fabriquées le plus rapidement possible.\\
+L'objet de ce projet est de trouver une bonne solution au problème de passage de pièces sur 3 machines dans un atelier de fabrication, de façon à minimiser la date fin d'ordonnancement des taches. Nous savons que ce problème est NP-Difficile, et donc que nombre de possibilitées à envisager est exponentiel en le nombre de taches. Nous devons donc trouver des méthodes qui puissent optimiser le temps de calcul associé au problème.
 
-La première partie est consacrée à la méthode approchée, via l'algorithme de Johnson, nous en verrons deux implémentations de complexité différente.
-La seconde partie sera consacrée à la méthode exacte, la façon dont on déduit différentes bornes inférieures du problème, puis l'implémentation d'un branch and bound afin de résoudre ce problème de manière exacte. On s'intéressera aux résultats suivant différentes classes de génération aléatoires de données, l'utilisation mémoire de l'implémentation et les temps d'exécutions moyens en fonction du nombre de taches dans l'instance.
+Nous chercherons d'abord de trouver un bonne solution au problème, tout en étant s'assurant de la qualité de notre solution: on utilisera donc un algorithme approché avec garantie de performance. Nous nous aiderons de l'algorithme de Johnson qui nous fournit une solution optimale (et en temps polynomial) au problème d'ordonnancement sur 2 machines. Nous tanterons ensuite de réduire la complexité de cet algorithme.
+
+
+Puis, nous chercherons trouver une solution exacte à ce problème, en se basant sur une méthode  de 'Branch and Bound'. Nous chercherons ensuite des bornes inférieures et supérieures associés à cette méthode pour nous permettre d'explorer uniquement les branches intéressantes. Nous discuterons également de nos résultats suite à une implémentation de l'algorithme, de la complexité en temps temporelle ainsi qu'en espace mémoire en fonction de la taille des instances de problèmes données.
+
+Nous finirons par discuter de méthodes envisageables pour optimiser nos algorithmes actuels, et tenterons de fournir une méthode au problème généralisé sur un nombre quelconque de machines. 
 
 %----------------------------------------------------------------------------------------
 %	PART 1
@@ -98,7 +102,7 @@ La seconde partie sera consacrée à la méthode exacte, la façon dont on dédu
 
 \subsection{3-Approché}
 
-Pour montrer que l'ordonnancement associé à P, une permutation arbitraire est 3-approché, il faudrait montrer que : \\
+Pour montrer que l'ordonnancement associé à P, une permutation arbitraire est 3-approché, il suffit de montrer que : \\
 \begin{center}
 (1) $Cout(P) \le \displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C)$\\
 \end{center}
@@ -109,11 +113,11 @@ Pour montrer que l'ordonnancement associé à P, une permutation arbitraire est 
 \begin{center}
 $3OPT \ge \displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C) \ge Cout(P)$\\
 \end{center}
-=> l'ordonnancement associé à P serait 3-approché\\
+L'ordonnancement associé à P serait donc 3-approché.\\
 
 Montrons (1) : $Cout(P) \le \displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C)$\\
 
-$\displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C)$ correspond à la date de fin des taches \{1,...,n\} lorsqu'on est obligé d'attendre que la tache i soit terminée sur la machine C avant de commencer la tache i+1 sur la machine A. Cela reviendrait à exécuter toutes les taches sur une seule machine (Au niveau de la date de fin, et en supposant qu'une machine puisse exécuter les taches des machines (A,B,C)). \\
+$\displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C)$ correspond à la date de fin d'ordonnancement des taches \{1,...,n\} lorsqu'on est obligé d'attendre que la tache i soit terminée sur la machine C, avant de pouvoir commencer la tache i+1 sur la machine A. Cela reviendrait à exécuter toutes les taches sur une seule machine (Au niveau de la date de fin, et en supposant qu'une machine puisse exécuter les taches des machines (A,B,C)). \\
 
 En pratique, lorsque la tache i sur la machine A (respectivement B) est terminée on peut commencer directement la tache i+1 sur la machine B (respectivement C).\\
 
@@ -121,7 +125,7 @@ Remarque : Nous avons l'égalité lorsqu'il n'y a qu'une seule tache à effectue
 
 Montrons maintenant (2) :\\
 
-$\frac{1}{3}\displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C)$ est la durée moyenne de travail des machines A,B,C sur les taches \{1,...,n\}. Il y a forcément une machine qui prend d'avantage de temps à effectuer ses taches que la durée moyenne :\\
+$\frac{1}{3}\displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C)$ correspond à la durée moyenne de travail des machines A,B,C sur les taches \{1,...,n\}. Il y a forcément une machine qui prend d'avantage de temps à effectuer ses taches que la durée moyenne :\\
 \begin{center}
 (3) $\frac{1}{3}\displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C) \le \max(\displaystyle\sum_{i=1}^n d_i^A,\displaystyle\sum_{i=1}^n d_i^B,\displaystyle\sum_{i=1}^n d_i^C)$\\
 \end{center}
@@ -129,13 +133,13 @@ Comme toute les taches doivent passer sur chaque machine, nous avons :\\
 \begin{center}
 (4) $\max(\displaystyle\sum_{i=1}^n d_i^A,\displaystyle\sum_{i=1}^n d_i^B,\displaystyle\sum_{i=1}^n d_i^C) \le OPT$\\
 \end{center}
-avec (3) et (4) nous avons :\\
+avec (3) et (4) nous avons donc:\\
 \begin{center}
 $\frac{1}{3}\displaystyle\sum_{i=1}^n(d_i^A+d_i^B+d_i^C) \le OPT$\\
 
-=> P est 3-approché.
+L'ordonnancement associé à P est donc 3-approché.
 \end{center}
-Exemple : Soit $\epsilon$ > 0, 3 taches de durées :\\
+Exemples: Cas OPTIMAL et WSPT : \\ Soit $\epsilon$ > 0,et 3 taches \{1,2,3\} de durées :\\
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline 
@@ -170,21 +174,21 @@ Lorsque $\epsilon$ -> 0, durée de fin = 3. avec permutation (3,2,1).
 
 \subsection{2-Approché}
 
-Soit $D_i^j$ la date de fin d'ordonnancement t retournée par l'algorithme de Johnson appliqué sur i machines.
-Nous pouvons montrer l'inégalité suivante : \\
+Soit $D_i^J$ la date de fin d'ordonnancement t retournée par l'algorithme de Johnson appliqué sur i machines.
+L'inégalité suivante est triviale: Pour les deux problèmes (sur 2 et sur 3 machines) l'algorithme de Johnson nous renvoie la même permutation. Les Durées de fin d'ordonnancement sur les machines A et B sont donc identiques. Il reste à rajouter les taches de la machine C.   \\
 \begin{center}
-$D_3^J \le D_2^j + \displaystyle\sum_{i=1}^n d_i^C$\\
+$D_3^J \le D_2^J + \displaystyle\sum_{i=1}^n d_i^C$\\
 \end{center}
-Nous avons bien que la date de fin d'ordonnancement de 3 machines est au moins aussi bonne que la date sur 2 machines, plus les taches à effectuer sur la machine C.\\
+Nous avons bien l'énigalité, dans le second membre nous rajoutons les taches de C une fois que toutes les taches de B soient terminées.\\
 
-De plus, (*) $D_2^j \le OPT_3$ ($OPT_3$ étant la date de fin d'ordonnancement sur 3 machines, car $D_2^j \ge OPT$ est optimale sur 2 machines, et ou ne prends pas en compte les taches $D_i^C$).\\
+Soient $OPT_3$ et $OPT_2$ étant la date de fin d'ordonnancement sur 3 machines (respectivement 2). Nous pouvons observer que (*) $D_2^J \le OPT_3$: la durée $D_2^J \ge OPT$ est optimale sur 2 machines, et on ne prend pas en compte les taches de la machine C.\\
 
-Nous avons aussi (**)$\displaystyle\sum_{i=1}^n d_i^C \le OPT_3$ (car il y a au minimum la première tache de la machine A $D_i^A$ qui devrait être prise en compte).\\
+Nous avons aussi (**)$\displaystyle\sum_{i=1}^n d_i^C \le OPT_3$: il y a au minimum la première tache de la machine A $D_i^A$ qui devrait être prise en compte).\\
 \begin{center}
-Donc :
-$D_3^J \le D_2^j + \displaystyle\sum_{i=1}^n d_i^C \le 2OPT$ avec (*) et (**)
+Avec (*) et (**) nous avons:
+$D_3^J \le D_2^j + \displaystyle\sum_{i=1}^n d_i^C \le 2OPT$ 
 \end{center}
-Exemple : Soit $\epsilon$ > 0, 3 taches de durées :\\
+Exemples: Cas OPTIMAL et WSPT : \\ Soit $\epsilon$ > 0,et 3 taches \{1,2,3\} de durées :\\
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 
@@ -204,27 +208,25 @@ L'algorithme de Johnson nous renverrait la permutation (1,2,3), ce qui nous donn
 \begin{figure}[!ht]
 \centering
 \centerline{\includegraphics[scale=1]{3.jpg}}
-\caption{Permutation selon l'algorithme de Johnson}
+\caption{Cas WSPT: Permutation selon l'algorithme de Johnson.}
 \label{wspt2}
 \end{figure}
 
 \begin{figure}[!ht]
 \centering
 \centerline{\includegraphics[scale=1]{4.jpg}}
-\caption{Permutation optimale}
+\caption{Cas OPTIMAL, avec la permutation (2,1,3)}
 \label{opt2}
 \end{figure}
 
-OPT : Permutation (2,1,3)
-=> 2-approché, au mieux.
 
 \subsection{Implémentation}
 
-Pour traiter cette partie nous avons choisi le langage C. La gestion "A la main" de la mémoire en permet une utilisation optimale, de plus le langage étant proche de la machine et notre compilateur (GCC) permettant l'optimisation du code via des flags (On utilisera -02 pour notre projet) nous garantie des performances accrues par rapport à un langage plus haut niveau. \\
+Nous avons choisi d'implémenter nos algorithmes avec langage C. La gestion "A la main" de la mémoire en permet une utilisation optimale, de plus le langage étant proche de la machine et notre compilateur (GCC) permettant l'optimisation du code via des flags (On utilisera -02 pour notre projet) nous garantie des performances accrues par rapport à un langage plus haut niveau. \\
 
-Le développement sous GNU/Linux nous permet également d'utiliser facilement le timestamp UNIX afin de chronométrer nos temps d'exécution avec une précision raisonnable (En théorie, en microsecondes. En pratique, pour de petites instances le temps est difficile a évaluer à cause des nombreuses opérations des différents algorithmes, donc plutôt de l'ordre de la dixième de microseconde (À la louche)).\\
+Le développement sous GNU/Linux nous permet également d'utiliser facilement le timestamp UNIX afin de chronométrer nos temps d'exécutions avec une précision raisonnable (En théorie, en microsecondes. En pratique, pour de petites instances le temps est difficile a évaluer à cause des nombreuses opérations des différents algorithmes, donc plutôt de l'ordre de la dixième de microseconde (À la louche)).\\
 
-Nous avons implémenté deux versions différentes de l'algorithme de Johnson afin de comparer leurs performances. La première version est celle fournie dans le sujet. La seconde est la même avec tri des taches afin d'en optimiser le comportement. La première version possède une complexité en O($n^2$) la seconde O(n Log n).On teste nos algorithmes pour des instances dont le nombre de tache évolue de 1 à 2500, celles-ci sont générées aléatoirement selon 3 classes : Données non-corrélées, Corrélation sur les durées d'exécution et Corrélation sur les machines.\\
+Nous avons implémenté deux versions de l'algorithme de Johnson afin de comparer leurs performances. La première version est celle fournie dans le sujet. La seconde trie au préalable les taches dans l'ordre croissant afin pouvoir directement sélectionner les taches souhaitées. La complexité de la première version est en O($n^2$) alors que la seconde nous offre une complexité de O(n Log n). On confronte alors ces deux algorithmes pour des instances avec un nombre de taches variant de 1 à 2500. Les durées respectives sont générées aléatoirement selon 3 classes : Données non-corrélées, Corrélation sur les durées d'exécution et Corrélation sur les machines.\\
 
 \begin{figure}[!ht]
 \centering
@@ -233,7 +235,7 @@ Nous avons implémenté deux versions différentes de l'algorithme de Johnson af
 \label{john}
 \end{figure}
 
-On observe que (Fig : \ref{john}) l'algorithme de Johnson avec tri propose de bien meilleurs performances que l'algorithme original.
+On observe (Fig : \ref{john}) que l'algorithme avec tri propose des performances nettement supérieures à l'algorithme original.
 Celui-ci étant 2-approché, il pourra être utilisé afin de trouver une borne supérieure de notre instance.
 On observe aussi que les différentes classes n'influent pas sur le déroulement de l'algorithme. (Les courbes sont confondues pour chaque classe).
 
@@ -258,7 +260,7 @@ Montrons que dans $b_B^\pi$, on peut remplacer $t_B^\pi$ par :
 
 Ici (Fig : \ref{cas11}), une fois les taches $\pi$ terminées sur A, on rajoute la tache i, $i\in{\pi}^\prime,i = {\arg\min\limits_{i\in{\pi^\prime}}}\{d_A^i\}$, pour ne pas perdre de généralité.
 
-Ici, $t_A + d_A^i < t_B$. Il faudra alors attendre que les taches de $\pi$ se terminent sur B avant de pouvoir commencer i sur B.
+Ici, $t_A + d_A^i < t_B$. Il faudra alors attendre que les taches de $\pi$ se terminent sur B avant de pouvoir commencer la tache i sur B.
 
 \begin{figure}[!ht]
 \centering
@@ -267,16 +269,16 @@ Ici, $t_A + d_A^i < t_B$. Il faudra alors attendre que les taches de $\pi$ se te
 \label{cas12}
 \end{figure}
 
-Ici (Fig : \ref{cas12}) ,  $t_A + d_i^A \ge t_B$. Il faudra donc attendre i sur A avant de commencer i sur B.
+Ici (Fig : \ref{cas12}) ,  $t_A + d_i^A \ge t_B$. Il faudra donc attendre que la tache i se termine sur A avant de la commencer sur B.
 
 Au lieu d'uniquement prendre en compte $t_b^\pi$ pour la borne inférieur, ce serait plus efficace de prendre en compte au moins une durée en plus (ici $\min\limits_{i\in{\pi^\prime}}\{d_A^i\}$, car elle pourrait nous donner une borne inférieure plus grande (Cf cas 2).
 
-=> On remplace donc $t_B^\pi$ par $\max\{t_B^\pi,\min\limits_{i\in{\pi^\prime}}\{d_A^i\}+t_A^\pi\}$.
+On remplace donc $t_B^\pi$ par $\max\{t_B^\pi,\min\limits_{i\in{\pi^\prime}}\{d_A^i\}+t_A^\pi\}$.
 
 
 Montrons maintenant, qu'on peut toujours obtenir une borne inférieure en remplaçant $t_C^\pi$ par ${t^\prime}_C^\pi$ :
 
--> On va faire un raisonnement analogue à (la première borne) qui consiste à chercher les taches contraignantes. On va également choisir les taches de durée minimale, pour ne pas perdre de généralité ($\forall$ permutation de $\pi^\prime$, on aura toujours au moins le minimum).
+On va faire un raisonnement analogue à (la première borne) qui consiste à chercher les taches contraignantes. On va également choisir les taches de durée minimale, pour ne pas perdre de généralité (Pour toute permutation de $\pi^\prime$, on aura toujours au moins le minimum).
 
 \begin{figure}[!ht]
 \centering
@@ -306,9 +308,9 @@ Ici (Fig : \ref{cas22}) $t_B^\pi + \displaystyle\min_{i \in \pi^\prime}\{d_B^i\}
 
 Ici (Fig : \ref{cas23}) $t_A^\pi + \displaystyle\min_{i \in \pi^\prime}\{d_i^A + d_B^i\} > t_C$ et $t_A^\pi + \displaystyle\min_{i \in \pi^\prime}\{d_i^A + d_B^i\} > t_B + m...$ \\
 
-En optant pour les durées les plus grandes on construit une borne inférieure plus précise. En choisissant la tache minimale comme la première tache on ne perds pas de généralité car on cherche une borne inférieure. (si la tache $i\in\pi^\prime$ est contraignante sur la machine $j\in\{A,B,C\}$, toutes les taches de $\pi^\prime$ le seraient également).
+Opter pour la borne inférieure de valeur maximale nous premet de construire une borne inférieure plus proche de la solution réalisable. Nous pourrons donc éspérer un élage plus fréquent des branches de l'arbre. En choisissant la tache minimale comme la première tache on ne perds pas de généralité car on est à la recherche d'une borne inférieure. (si la tache $i\in\pi^\prime$ était contraignante sur la machine $j\in\{A,B,C\}$, toutes les taches de $\pi^\prime$ le seraient également).
 
-=> On peut remplacer $t_C^\pi$ par ${t^\prime}_C^\pi$, tel que :\\
+On peut donc remplacer $t_C^\pi$ par ${t^\prime}_C^\pi$, ce qui nous donne :\\
 \begin{center}
 ${t^\prime}_C^\pi = \max\{t_C^\pi,t_B^\pi + \displaystyle\min_{i \in \pi^\prime} d_B^i, t_A^\pi + \displaystyle\min_{i \in \pi^\prime}\{d_A^i + d_B^i\}\}$
 \end{center}
@@ -324,13 +326,13 @@ On schématise cette situation (Fig \ref{cas31}); pour simplifier, on suppose le
 \label{cas31}
 \end{figure}
 
-Pour simplifier, on suppose que les taches $\pi$ des machines B et C ne sont pas contraignantes (si elles l'était, on aurait un temps total plus grand). Pour que l'ordonnancement soit tel que sa date de fin soit égal à :\\
+Pour simplifier, on suppose que les taches $\pi$ des machines B et C ne sont pas contraignantes (si elles l'était, on aurait un temps total égal ou plus grand). Pour que l'ordonnancement soit tel que sa date de fin soit corresponde à :\\
 \begin{center}
 $t_A^\pi + \displaystyle\sum_{d_A^i \le d_C^i}d_A^i + d_A^k + d_B^k + d_C^k + \displaystyle\sum_{d_A^i > d_C^i}d_C^i$\\
 \end{center}
-, il faudrait faire les suppositions fortes que les taches \{1,...,k\} soient contraignantes sur la machine A (Alors que par définition, on a $d_A^i \le d_C^i$), c'est à dire que ces mêmes taches ne soient pas contraignantes pour les machines B et C, aussi que la supposition que les taches \{k+1,...,n\} soient contraignantes sur la machine C (alors que $d_i^A > d_i^C, \forall i \in \{k+1,...,n\}$.
+, il faudrait faire les suppositions fortes que les taches \{1,...,k\} soient contraignantes sur la machine A (Alors que par définition, on a $d_A^i \le d_C^i$), c'est à dire que ces mêmes taches ne soient pas contraignantes pour les machines B et C. Il faudrait également que les taches \{k+1,...,n\} soient contraignantes sur la machine C (alors que $d_i^A > d_i^C, \forall i \in \{k+1,...,n\}$.
 
-On a que $\forall k \in \pi^\prime$ la date de fin d'ordonnancement associé à P est supérieure ou égale à cette borne inférieure. Donc pour trouver une borne inférieure, nous avons la liberté de choisir notre k, la meilleur option serait donc de choisir un k qui maximise notre borne, c'est à dire :\\
+On a que $\forall k \in \pi^\prime$ la date de fin d'ordonnancement associé à P est supérieure ou égale à cette borne inférieure. Pour trouver une borne inférieure, nous avons la liberté de choisir notre k, la meilleur option serait donc de choisir un k qui maximise notre borne, c'est à dire :\\
 \begin{center}
  $b2 = t_A^\pi + \displaystyle\max_{k \in \pi^\prime}\{d_A^k + d_B^k + d_C^k + \displaystyle\sum_{i \in \pi^\prime,d_A^i \le d_C^i} d_A^i + \displaystyle\sum_{i \in \pi^\prime,d_A^i > d_C^i} d_C^i\} $\\
 \end{center}
@@ -354,7 +356,7 @@ En faisant le même raisonnement (Fig : \ref{cas41}), on peut déduire la borne 
 
 Pour traiter cette partie nous avons choisi le même langage pour les mêmes raisons que précédemment. Ainsi que pour une réutilisation aisée de l'algorithme de Johnson.\\
 
-Ayant opté pour une implémentation récursive du branch and bound, celle-ci diffère un peu de celle vue en cours. Le cœur récursif de l'implémentation se charge d'effectuer toute les permutations possibles, à chacune de ses permutations, on calcule une borne supérieure et une borne inférieure. Celles-ci déterminent si oui ou non, l'exploration doit se poursuivre dans la branche courante, comme traité en TD pour un problème de minimisation. Nous avons choisi l'implémentation récursive car elle nous paraissait plus intuitive pour un parcours d'arbre et utilisant l'optimisation de GCC, la récursion est traité comme une boucle avec une pile. En soit, après optimisation, le code doit fonctionner de la même façon que l'algorithme étudié en cours. 
+Ayant opté pour une implémentation récursive du branch and bound, celle-ci diffère un peu de celle vue en cours. Le cœur récursif de l'implémentation se charge d'effectuer toute les permutations possibles, et à chaque permutation, on calcule une borne supérieure et une borne inférieure. Celles-ci déterminent si oui ou non, l'exploration se poursuit dans la branche courante (comme traité en TD, pour un problème de minimisation). Nous avons choisi l'implémentation récursive car elle nous paraissait plus intuitive pour un parcours d'arbre et utilisant l'optimisation de GCC, la récursion est traitée comme une boucle avec une pile. En soit, après optimisation, le code doit fonctionner de la même façon que l'algorithme étudié en cours. 
 
 L'algorithme pouvant difficilement traiter des instances à plus de 10 taches, ce sera notre taille maximale durant les tests. Les moyennes ont été calculées sur 200 tests.
 
@@ -374,14 +376,14 @@ L'algorithme pouvant difficilement traiter des instances à plus de 10 taches, c
 
 L'algorithme ne permettant pas le traitement de grandes instances, il est difficile de faire une analyse pertinente de nos résultats.
 
-On constate que l'utilisation du branch and bound ne rend pas l'algorithme moins combinatoire mais qu'il en réduit fortement le cout (Sur les figures \ref{tmpmoy} et \ref{ndmoy} les temps de calcul et nombre de nœuds explorés explosent à partir de 10 taches, à 11 tache le temps de calcul est déjà trop élevé pour effectuer 200 tests avec chaque classe de génération).
+On constate que l'utilisation du branch and bound ne réduit pas la complexité dans le pire des cas (la complexité reste exponentielle), mais en pratique le temps de calcul est fortement diminué (Sur les figures \ref{tmpmoy} et \ref{ndmoy} mais explose avecle nombre de nœuds explorés à partir de 10 taches, et à 11 taches le temps de calcul est déjà trop élevé pour effectuer 200 tests avec chaque classe de génération).
 
 
 On peut observer sur les temps d'exécutions (Fig : \ref{tmpmoy}) que :
 La borne bMax dans les 3 classes montre des performances supérieures à la borne b1.
-Les données non corrélées sont les plus rapides à être traitées suivies des données corrélées sur les durées d'exécution pour finir les données corrélées sur les machines sont les plus longues à traiter. Il est possible d'observer un résultat similaire avec le nombre de nœuds explorés (Fig : \ref{ndmoy}).
+Les données non corrélées sont les plus rapides à être traitées, suivies des données corrélées sur les durées d'exécution et pour finir, les données corrélées. Il est possible d'observer un résultat similaire avec le nombre de nœuds explorés (Fig : \ref{ndmoy}).
 
-On peut observer l'utilisation mémoire de l'algorithme pour une instance à 10 taches, pour cela on utilise massif, un outil de valgrind
+On peut observer l'utilisation mémoire de l'algorithme pour une instance à 10 taches à l'aide de massif; un outil de valgrind.
 
 \begin{figure}[!ht]
 \centering
@@ -390,7 +392,7 @@ On peut observer l'utilisation mémoire de l'algorithme pour une instance à 10 
 \label{mem}
 \end{figure}
 
-On peut constater que l'allocation mémoire totale du programme est très lourde, c'est lié à l'implémentation de Johnson qui retourne une nouvelle instance à chaque appel, on pourrait réduire la consommation mémoire totale en modifiant cette implémentation. En contrepartie l'allocation mémoire maximale durant le déroulement de l'algo est très faible (environ 11Ko). Cela permettrait traiter de grandes instances sans se soucier de la mémoire.
+On peut constater que l'allocation mémoire totale du programme est très lourde, c'est lié à l'implémentation de Johnson qui retourne une nouvelle instance à chaque appel. On pourrait réduire la consommation mémoire totale en modifiant cette implémentation. En contrepartie, l'allocation mémoire maximale durant le déroulement de l'algo est très faible (environ 11Ko). Cela permettrait traiter de grandes instances sans se soucier du problème de la mémoire.
 
 %----------------------------------------------------------------------------------------
 
@@ -401,24 +403,24 @@ On peut constater que l'allocation mémoire totale du programme est très lourde
 \newpage
 \section{Méthode de recherche arborescente approchée}
 
-\subsection{Possibilités}
+\subsection{Optimisations}
 
-Par manque de temps cette partie n'a pas été implémentée.
+Il existe plusieurs méthodes qui pourraient encore réduire le temps de calcul moyen de manière significative.\\
 
-Pour réaliser une méthode de recherche arborescente, on pourrait effectuer un parcours en largeur, en choisissant à chaque nœud uniquement la solution la plus intéressante.
+Nous pouvons dans un premier temps modifier notre algorithme de Branch and Bound, pour effectuer un parcours en largeur modifié: l'algorithme explore toutes les branches en calculant pour chaque noeud une solution réalisable à l'aide de l'algorithme de Johnson. On emprunte en premier les branches les plus prometteuses, c'est-à-dire celles qui nous renvoie les meilleures solutions réalisables. En utilisant le même principe d'élagage des noeuds, nous pouvons aussi élaguer les branches dès que possible. Cette algorithme révisé nous permettrai potentiellement de trouver la meilleure solution dans un temps plus court (pour encore gagner du temps, nous pouvons nous très bien nous arrêter après un nombre quelconque k feuilles rencontrées, mais cette méthode ne serait plus exacte).
 
-Une autre possibilité aurait été d'effectuer la descente de l'arbre pendant une durée limitée et de remonter la dernière meilleur solution trouvée pendant le temps imparti.
+Nous pouvons ensuite aussi optimiser le temps de calcul en appliquant l'algorithme de Branch and Greed, c'est-à-dire choisir uniquement la branche qui nous rende la borne supérieure la plus faible, puis réitérer l'opération sur les branches du sous arbre. Cette méthode nous assure uniquement une solution convenable, mais nous assure une complexité de O($log(n)$) (nous descendons qu'une fois jusqu'à atteidre un noeud terminal). Cette méthode pourrait s'avérer utile pour de très grande instances. De plus, comme nous utilisons l'algorithme de Johnson, nous pouvons contrôler notre distance à l'ordonnancement optimal: notre solution serait au moins 2-approchée.
 
+Faute de temps, nous étions dans l'incapacité d'implémenter ces méthodes.
 %------------------------------------------------
 \clearpage
 \newpage
 \section{Conclusion}
 
-Le choix du langage C n'est pas pertinent dans le cadre de ce projet étudiant. En effet, même si les temps de calcul et l'occupation mémoire maximales sont intéressants, ces aspects sont peu intéressants dans notre étude. Le problème traité étant combinatoire les temps de calculs explosent trop rapidement pour rendre l'investissement consacré à la gestion de la mémoire et de l'optimisation intéressant par rapport à un langage plus haut niveau, qui nous aurais permis de traiter les parties manquantes.\\
 
-Néanmoins nous avons pu implémenter un algorithme approché avec deux complexités différentes et observer la différence de temps d'exécution entre ceux-ci.\\
-
-L'implémentation du branch and bound nous à permis d'observer la difficulté à traiter les problèmes combinatoires et de constater les différences dépendant de la façon dont sont corrélées les données d'une instance.\\
+Nous avons pu constater qu'apporter des solutions à un problème NP-difficile est fastidieuse: l'algorithme approché avec garantie de performance nous renvoie des résultats convenables, mais il n'existe pas nécéssairement d'algorithmes approchés pour un problème NP-difficile (exemple: problème du voyageur de commerce). Il faut dans le cas échéant utiliser la méthode de branch and bound, qui nous assure une solution exacte, mais sans que la complexité dans le pire des cas soit réduite. Nous avons néenmoins des temps de calcul corrects pour des instances de taches qui restes petites, mais nous ne pourrons pas appliquer cette méthode pour des grandes instances. En optimisant cette méthode, il serait également possible d'avoir un temps de calcul en moyenne plus petit. Dans notre méthode exacte il est possible de baisser la complexité, sans pour autant trouver de solution en temps polynomial (sauf si P=NP). 
+  
+Nous nous sommes également aperçus que langage C n'est pas forcément pertinent dans le cadre de ce projet étudiant. En effet, même si les temps de calcul et l'occupation mémoire maximales sont intéressants, ces aspects sont peu intéressants dans cette étude. Les temps de calculs explosent trop rapidement pour rendre l'investissement consacré à la gestion de la mémoire et de l'optimisation intéressant par rapport à un langage plus haut niveau, qui nous aurais permis de traiter les parties manquantes.\\
 
 
 %Figure : \ref{pouthisteqr}

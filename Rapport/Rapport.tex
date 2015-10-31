@@ -394,6 +394,10 @@ On peut observer l'utilisation mémoire de l'algorithme pour une instance à 10 
 
 On peut constater que l'allocation mémoire totale du programme est très lourde, c'est lié à l'implémentation de Johnson qui retourne une nouvelle instance à chaque appel. On pourrait réduire la consommation mémoire totale en modifiant cette implémentation. En contrepartie, l'allocation mémoire maximale durant le déroulement de l'algo est très faible (environ 11Ko). Cela permettrait traiter de grandes instances sans se soucier du problème de la mémoire.
 
+\subsection{K-machines}
+
+Il devrait être possible d'utiliser cette méthode pour le problème sur k machines. Mais il faudrait estimer de nouvelles bornes inférieures et supérieures afin d'en garantir les performances.
+
 %----------------------------------------------------------------------------------------
 
 %----------------------------------------------------------------------------------------
